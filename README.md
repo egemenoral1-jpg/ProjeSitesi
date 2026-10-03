@@ -1,5 +1,7 @@
 # Egemen's Room: an interactive 3D cartoon portfolio
 
+**Live:** https://proje-sitesi-three.vercel.app · **CV:** https://egemenoral.netlify.app
+
 There is no portfolio UI here. You sit in the living room from Regular Show (cream walls, green carpet, the yellow
 staircase, a framed drawing, a floor lamp), drawn in 3D with cartoon cel shading and outlines, in front of an old grey
 CRT on a wooden cabinet that shows snow. VHS tapes are stacked on both sides of the TV: **each tape
