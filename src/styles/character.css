@@ -1,0 +1,14 @@
+.character { position: absolute; left: 0; width: 0; height: 0; will-change: transform; }
+.bob { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.m-body, .m-arm { position: absolute; max-width: none; }
+.m-arm { will-change: transform; }
+.m-hand { position: absolute; will-change: transform; }
+.m-hand-img { position: absolute; inset: 0; width: 100%; height: 100%; will-change: transform; }
+.held { position: absolute; visibility: hidden; opacity: 0; will-change: transform; transform-origin: 50% 50%; }
+.held img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.held-label {
+  position: absolute; left: 7%; width: 86%; top: 7%; height: 43%;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font: 400 13px/1 var(--font-title); color: #17141c; letter-spacing: .02em; white-space: nowrap; overflow: hidden;
+  box-shadow: inset 0 6px 0 var(--c, #f2b632); padding-top: 6px; border-radius: 3px;
+}

@@ -1,0 +1,33 @@
+.cassette {
+  position: absolute; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto;
+  transition: transform .22s cubic-bezier(.2, .9, .3, 1.4), filter .22s;
+  transform-origin: 50% 100%;
+}
+.cassette-art { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.cassette-label {
+  position: absolute; left: 6px; right: 6px; top: 10px; bottom: 10px; background: var(--c);
+  border-radius: 3px; overflow: hidden; display: flex; align-items: center; justify-content: center;
+  writing-mode: vertical-rl; transform: rotate(180deg); pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25), inset 6px 0 0 rgba(255, 255, 255, .22);
+}
+.cassette-label b {
+  font: 400 13px/1 var(--font-title); letter-spacing: .02em; color: #17141c; white-space: nowrap;
+}
+.cassette:hover:not(.is-disabled), .cassette:focus-visible:not(.is-disabled), .cassette.show-tip:not(.is-disabled) {
+  transform: translateY(-14px) rotate(-3deg) scale(1.08);
+  filter: drop-shadow(0 0 12px var(--c)) brightness(1.15);
+  outline: none; z-index: 5;
+}
+.cassette.is-selected { filter: drop-shadow(0 0 16px var(--c)) brightness(1.25); transform: translateY(-14px) scale(1.08); }
+.cassette.is-disabled { cursor: default; }
+.cassette.is-picked { visibility: hidden; }
+
+.cassette-tip {
+  position: absolute; left: 50%; bottom: calc(100% + 14px); transform: translate(-50%, 6px) rotate(3deg);
+  background: #14101c; color: #fff4c8; border: 2px solid var(--c); border-radius: 4px;
+  padding: 4px 10px; font: 400 22px/1 var(--font-tv); letter-spacing: .06em; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s;
+}
+.cassette:hover:not(.is-disabled) .cassette-tip, .cassette:focus-visible .cassette-tip, .cassette.show-tip:not(.is-disabled) .cassette-tip {
+  opacity: 1; transform: translate(-50%, 0) rotate(3deg);
+}

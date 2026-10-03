@@ -1,0 +1,63 @@
+:root {
+  --ink: #d8ffe9;
+  --night: #0b0814;
+  --font-tv: 'VT323', 'Courier New', monospace;
+  --font-title: 'Lilita One', Impact, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; }
+body {
+  background: var(--night);
+  color: var(--ink);
+  font-family: var(--font-tv);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+img { display: block; -webkit-user-drag: none; }
+button { font: inherit; color: inherit; }
+
+/* ---- full-page CRT / VHS finish ---- */
+.scanlines { position: absolute; inset: 0; pointer-events: none; }
+.scanlines-page {
+  position: fixed; z-index: 40;
+  background:
+    radial-gradient(120% 100% at 50% 45%, transparent 55%, rgba(0, 0, 0, .55) 100%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .10) 0 1px, transparent 1px 3px);
+}
+.scanlines-screen {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .28) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+/* ---- intro / hint / sound ---- */
+.intro {
+  position: fixed; inset: 0; z-index: 100; background: #000;
+  display: grid; place-items: center; text-align: center; cursor: pointer;
+}
+.intro p {
+  grid-area: 1 / 1; margin: 0; font-size: clamp(30px, 6vw, 64px); letter-spacing: .08em;
+  color: #cfeede; text-shadow: 2px 0 rgba(255, 60, 90, .5), -2px 0 rgba(60, 200, 255, .5), 0 0 18px rgba(120, 255, 200, .5);
+  opacity: 0;
+}
+.intro small { position: absolute; bottom: 5vh; font-size: 18px; opacity: .4; letter-spacing: .15em; }
+
+.hint {
+  position: fixed; z-index: 30; left: 50%; bottom: max(4vh, 18px); transform: translateX(-50%);
+  font-size: clamp(22px, 3.4vw, 30px); letter-spacing: .12em; color: #ffe9a8; pointer-events: none;
+  text-shadow: 0 0 10px rgba(255, 200, 90, .6);
+  animation: hintBlink 2.2s ease-in-out infinite;
+}
+@keyframes hintBlink { 50% { opacity: .45; } }
+
+.sound-toggle {
+  position: fixed; z-index: 45; right: 12px; bottom: 12px;
+  background: rgba(20, 16, 30, .75); border: 1px solid rgba(255, 255, 255, .25); border-radius: 4px;
+  padding: 4px 10px; font-size: 18px; letter-spacing: .1em; cursor: pointer; opacity: .6;
+}
+.sound-toggle:hover, .sound-toggle:focus-visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hint, .mote { animation: none; }
+}
