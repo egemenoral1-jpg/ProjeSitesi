@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { TV } from '../config/layout';
 import type { SceneState } from '../state/machine';
-import gsap from 'gsap';
 import { sfx } from '../audio/audio';
 import { getWorld, type TapeObject } from '../three/World';
 import { setCamera } from './cameraAnimations';
+import { setSpeed } from './rig';
 import {
   animateArmToCassette,
   carryCassette,
@@ -20,7 +20,7 @@ type Report = (s: SceneState) => boolean;
 
 /** The hand part of the sequence plays a bit faster than authored. */
 const HAND_SPEED = 1.35;
-const handSpeed = (on: boolean) => void gsap.globalTimeline.timeScale(on ? HAND_SPEED : 1);
+const handSpeed = (on: boolean) => setSpeed(on ? HAND_SPEED : 1);
 
 /**
  * The whole "small animated movie" for one cassette. The step functions it

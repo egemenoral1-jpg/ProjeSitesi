@@ -1,11 +1,21 @@
 import gsap from 'gsap';
 import type * as THREE from 'three';
 
-export const wait = (seconds: number) => new Promise<void>((res) => gsap.delayedCall(seconds, res));
+/**
+ * Playback speed for the sequence steps that are awaited with run()/wait().
+ * (Changing gsap.globalTimeline.timeScale instead would make every running animation jump.)
+ */
+let speed = 1;
+export const setSpeed = (s: number) => {
+  speed = s;
+};
+
+export const wait = (seconds: number) => new Promise<void>((res) => gsap.delayedCall(seconds / speed, res));
 
 /** Resolve when a tween/timeline completes. (Never `await` a GSAP timeline directly: it is thenable.) */
 export const run = (anim: gsap.core.Animation) =>
   new Promise<void>((res) => {
+    if (speed !== 1) anim.timeScale(speed);
     anim.eventCallback('onComplete', () => res());
   });
 

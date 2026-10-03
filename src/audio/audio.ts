@@ -64,29 +64,57 @@ class AudioEngine {
     if (!this.ctx) {
       const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!Ctx) return;
-      const ctx = new Ctx();
-      this.ctx = ctx;
-      const comp = ctx.createDynamicsCompressor();
-      comp.threshold.value = -18;
-      comp.ratio.value = 3;
-      this.master = ctx.createGain();
+      this.ctx = new Ctx();
+      this.buildGraph(this.ctx);
       this.master.gain.value = this.enabled ? 0.9 : 0;
-      this.master.connect(comp).connect(ctx.destination);
-      this.musicBus = ctx.createGain();
-      this.musicBus.gain.value = 0.22;
-      const warm = ctx.createBiquadFilter();
-      warm.type = 'lowpass';
-      warm.frequency.value = 5200;
-      this.musicBus.connect(warm).connect(this.master);
-      this.sfxBus = ctx.createGain();
-      this.sfxBus.gain.value = 0.5;
-      this.sfxBus.connect(this.master);
-      this.noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
-      const d = this.noise.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
     }
     void this.ctx.resume();
     if (this.enabled) this.startMusic();
+  }
+
+  /** master -> compressor -> speakers; music through a warm low-pass; effects on their own bus. */
+  private buildGraph(ctx: BaseAudioContext) {
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -18;
+    comp.ratio.value = 3;
+    this.master = ctx.createGain();
+    this.master.connect(comp).connect(ctx.destination);
+    this.musicBus = ctx.createGain();
+    this.musicBus.gain.value = 0.22;
+    const warm = ctx.createBiquadFilter();
+    warm.type = 'lowpass';
+    warm.frequency.value = 5200;
+    this.musicBus.connect(warm).connect(this.master);
+    this.sfxBus = ctx.createGain();
+    this.sfxBus.gain.value = 0.5;
+    this.sfxBus.connect(this.master);
+    this.noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+    const d = this.noise.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+
+  /**
+   * Render the soundtrack offline (used to put the site's own music and effects on a
+   * promo video, frame-accurately): music for `seconds`, effects at the given times,
+   * music ducking on/off at the given times, and a fade-out at the end.
+   */
+  async renderOffline(seconds: number, cues: [SoundName, number][], ducks: [boolean, number][] = []) {
+    const saved = { ctx: this.ctx, master: this.master, musicBus: this.musicBus, sfxBus: this.sfxBus, noise: this.noise, enabled: this.enabled };
+    const off = new OfflineAudioContext(2, Math.ceil(44100 * seconds), 44100);
+    this.ctx = off as unknown as AudioContext;
+    this.enabled = true;
+    this.buildGraph(off);
+    this.master.gain.setValueAtTime(0.9, 0);
+    for (let t = 0.05, step = 0; t < seconds; t += STEP, step = (step + 1) % 128) this.playStep(step, t);
+    for (const [on, at] of ducks) this.musicBus.gain.setTargetAtTime(on ? 0.1 : 0.22, at, 0.4);
+    for (const [name, at] of cues) this.play(name, at);
+    this.master.gain.setValueAtTime(0.9, Math.max(0, seconds - 2.2));
+    this.master.gain.linearRampToValueAtTime(0.0001, seconds);
+    try {
+      return await off.startRendering();
+    } finally {
+      Object.assign(this, saved);
+    }
   }
 
   setEnabled(on: boolean) {
@@ -262,10 +290,10 @@ class AudioEngine {
 
   // ------------------------------------------------------------- effects
 
-  play(name: SoundName) {
+  play(name: SoundName, at?: number) {
     if (!this.ctx || !this.enabled) return;
     const ctx = this.ctx;
-    const t = ctx.currentTime + 0.01;
+    const t = at ?? ctx.currentTime + 0.01;
     switch (name) {
       case 'cassetteClick':
       case 'buttonClick':
