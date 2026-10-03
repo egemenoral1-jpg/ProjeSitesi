@@ -3,8 +3,8 @@
  *
  * Every image/sound used by the app is referenced ONLY from here. To swap a
  * placeholder for final artwork, drop the new file into public/assets/... and
- * change the matching path below (e.g. `placeholder-mordecai-body.svg` ->
- * `mordecai-body.webp`). Nothing else in the code base needs to change.
+ * change the matching path below (e.g. `placeholder-mordecai-right-arm.svg` ->
+ * `mordecai-right-arm.webp`). Nothing else in the code base needs to change.
  * See docs/ASSETS.md for sizes, anchors and layers of every file.
  */
 const base = import.meta.env.BASE_URL;
@@ -14,20 +14,14 @@ export const ASSETS = {
   background: a('background/placeholder-background.svg'),
   room: a('room/placeholder-room.svg'),
   furniture: {
-    shelf: a('furniture/placeholder-shelf.svg'),
-    tvStand: a('furniture/placeholder-tv-stand.svg'),
-    armchair: a('furniture/placeholder-armchair.svg'),
-    lamp: a('furniture/placeholder-lamp.svg'),
-    rug: a('furniture/placeholder-rug.svg'),
     plant: a('furniture/placeholder-plant.svg'),
+    lamp: a('furniture/placeholder-lamp.svg'),
   },
   props: {
-    pizza: a('props/placeholder-pizza.svg'),
     cans: a('props/placeholder-cans.svg'),
   },
   characters: {
     mordecai: {
-      body: a('characters/mordecai/placeholder-mordecai-body.svg'),
       leftArm: a('characters/mordecai/placeholder-mordecai-left-arm.svg'),
       rightArm: a('characters/mordecai/placeholder-mordecai-right-arm.svg'),
       leftHand: a('characters/mordecai/placeholder-mordecai-left-hand.svg'),
@@ -35,7 +29,6 @@ export const ASSETS = {
     },
   },
   cassettes: {
-    front: a('cassettes/placeholder-vhs-front.svg'),
     spine: a('cassettes/placeholder-vhs-spine.svg'),
   },
   tv: {

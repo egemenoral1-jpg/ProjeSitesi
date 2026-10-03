@@ -22,6 +22,7 @@ export function useSceneInteraction() {
     }
   });
   const cassetteEl = useRef<HTMLElement | null>(null);
+  const tapeRef = useRef<(typeof TAPES)[number] | null>(null);
 
   /** Ask for a transition; returns false (and does nothing) if it is not allowed right now. */
   const to = useCallback((next: SceneState) => {
@@ -46,6 +47,7 @@ export function useSceneInteraction() {
       }
       setSelectedId(id);
       cassetteEl.current = el;
+      tapeRef.current = tape;
       try {
         await playCassetteSequence(el, tape, to);
       } catch (err) {
@@ -60,13 +62,14 @@ export function useSceneInteraction() {
   const back = useCallback(async () => {
     if (stateRef.current !== 'VIEWING_PROJECT') return;
     try {
-      await playBackSequence(cassetteEl.current, to);
+      await playBackSequence(cassetteEl.current, tapeRef.current, to);
     } catch (err) {
       console.error('Back sequence failed', err);
       await recover(cassetteEl.current, to);
     }
     setSelectedId(null);
     cassetteEl.current = null;
+    tapeRef.current = null;
   }, [to]);
 
   return { state, selectedId, hintVisible, select, back, introDone, busy: state !== 'IDLE' };

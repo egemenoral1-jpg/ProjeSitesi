@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react';
-import { STAGE } from '../../config/layout';
-import { registerRig } from '../../animations/rig';
+import gsap from 'gsap';
+import { STAGE, TAPE_IN_SLOT_SCALE } from '../../config/layout';
+import { getRig, registerRig } from '../../animations/rig';
 import { initCamera } from '../../animations/cameraAnimations';
-import { initCharacter } from '../../animations/characterAnimations';
+import { initArms } from '../../animations/characterAnimations';
 import { useSceneScale } from '../../hooks/useSceneScale';
 import { CassetteShelf } from '../cassette/CassetteShelf';
 import { Mordecai } from '../character/Mordecai';
 import { CRTTV } from '../television/CRTTV';
-import { Foreground, Furniture, Props } from './Furniture';
+import { Furniture, Props } from './Furniture';
 import { Lighting } from './Lighting';
 import { ParallaxLayer } from './ParallaxLayer';
 import { Background, Room } from './Room';
 
-interface Props_ {
+interface SceneProps {
   selectedId: string | null;
   busy: boolean;
   onSelect: (id: string, el: HTMLElement) => void;
@@ -21,11 +22,11 @@ interface Props_ {
 
 /**
  * Layer stack (bottom -> top):
- *  background, room, furniture + cassettes, props, TV, Mordecai (so his arm can reach in front of the TV),
- *  foreground, lighting. Each layer is an independent 2D plane with its own parallax depth.
+ *  background, room (wall + table), furniture + tape stacks, props, TV, Mordecai's arms, lighting.
+ * Each layer is an independent 2D plane with its own parallax depth.
  * The `.camera` wrapper is the 2D camera: GSAP moves/zooms it with a single transform.
  */
-export function Scene({ selectedId, busy, onSelect, onBack }: Props_) {
+export function Scene({ selectedId, busy, onSelect, onBack }: SceneProps) {
   const scene = useRef<HTMLDivElement>(null);
   const camera = useRef<HTMLDivElement>(null);
   const scale = useSceneScale(scene);
@@ -33,7 +34,8 @@ export function Scene({ selectedId, busy, onSelect, onBack }: Props_) {
   useEffect(() => {
     registerRig({ scene: scene.current!, camera: camera.current!, scale: () => scale.current });
     initCamera();
-    initCharacter();
+    initArms();
+    gsap.set(getRig().slotTape, { autoAlpha: 0, scale: TAPE_IN_SLOT_SCALE, transformOrigin: '50% 50%' });
   }, [scale]);
 
   return (
@@ -58,9 +60,6 @@ export function Scene({ selectedId, busy, onSelect, onBack }: Props_) {
           </ParallaxLayer>
           <ParallaxLayer id="character">
             <Mordecai />
-          </ParallaxLayer>
-          <ParallaxLayer id="foreground">
-            <Foreground />
           </ParallaxLayer>
           <Lighting />
         </div>

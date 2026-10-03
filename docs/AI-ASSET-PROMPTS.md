@@ -1,76 +1,68 @@
 # AI image prompts
 
-Generate every asset with the **same model, same seed family and the shared style block below**, so the room stays
-consistent. Sizes and anchors for every file are in [ASSETS.md](ASSETS.md). Generate at 2x, remove the background
-(for transparent items), crop exactly to the aspect ratio and export WebP.
+Generate every asset with the **same model, the same seed family and the shared style block below**, so the
+scene stays consistent. Sizes and anchors for every file are in [ASSETS.md](ASSETS.md). Generate at 2x, remove
+the background for transparent items, crop exactly to the aspect ratio and export WebP.
 
-> These prompts describe an original late-night cartoon living room and a blue-jay character. If you use a licensed
-> character, make sure you have the right to use it on a public site.
+> These prompts describe a scene inspired by a late-night cartoon living room with a blue-jay character's arms.
+> If you use a licensed character, make sure you have the right to use it on a public site.
 
 ## Shared style block (paste at the start of every prompt)
 
 ```
-2D flat cartoon illustration, late-night animated TV show style, thick clean dark-navy outlines of constant weight,
-simple cel shading with one soft shadow tone, slightly muted desaturated palette: dark brown, muted purple, deep blue,
-warm yellow-orange accents, CRT blue-green light. Straight-on orthographic front view (no perspective tilt), eye level,
-slightly messy cozy nostalgic living room, night time. Main light: blue-green glow from an old CRT television on the
-right-centre, weak warm lamp light from the far right, faint moonlight from a window on the left. Not horror, not neon,
-not cyberpunk, no text, no watermark.
+2D flat cartoon illustration in the style of a late-night animated TV show, thick clean dark outlines of constant
+weight, simple cel shading with one soft shadow tone, slightly muted palette: dark brown, muted purple, deep blue,
+warm tan wood, warm yellow-orange accents, CRT blue-green light. Straight-on front view at table height, no
+perspective tilt. Evening living room, cozy and nostalgic. Main light: blue-green glow from an old CRT television in
+the centre, weak warm lamp on the right. Not horror, not neon, not cyberpunk, no text, no watermark.
 ```
 
-Negative prompt (if supported): `3d render, photo, realistic, neon, cyberpunk, horror, text, logo, watermark, blurry, perspective distortion`
+Negative prompt (if supported): `3d render, photo, realistic, neon, cyberpunk, horror, text, logo, watermark, blurry outlines, perspective distortion`
 
 ## Room
 
-**Background (3200x1800, opaque)**
-`<style block>` Empty dark night sky gradient, deep blue to purple to dark brown, extremely soft, almost flat, very low detail, used only as a backdrop.
+**Background (3200x1800, opaque)** Plain flat fill: upper half light warm grey (#8f8b96), lower half dusty blue (#3a4d63). No detail.
 
-**Room shell (1700x960, opaque)**
-`<style block>` Empty living-room wall and floor seen straight on. Muted purple wallpaper with faint vertical stripes in the upper 70%, dark baseboard, wooden plank floor in dark brown in the lower 30% (horizon line at 70% of the height). A four-pane window with a night sky, moon and distant hills on the left (about 17% from the left, 8-35% from the top). A small retro rock-concert poster on the upper right wall. No furniture, no characters. Keep the centre uncluttered.
+**Room shell (2100x960, opaque)** `<style block>` Empty wall and table seen straight on, made only of horizontal bands:
+light grey upper wall in the top 25%, muted purple wallpaper with faint vertical stripes down to 69%, a tan wooden
+table top from 69% to 73% with a thin highlight on its back edge, the darker front edge of the table to 79%, and a
+heavily blurred floor below it (soft green, blue and violet blobs, out of focus). Nothing standing on the table.
 
-## Furniture (transparent background, side-on, same eye-level camera)
+## On the table (transparent background, same front camera)
 
-**Shelf (420x70)** `<style block>` A single wooden wall shelf plank with two triangular brackets, seen from the front, top edge flat and aligned to the top of the image, transparent background.
+**Plant (340x600)** `<style block>` Leafy houseplant in a terracotta pot, front view.
 
-**TV stand (560x190)** `<style block>` Low wooden TV cabinet with two doors and round brass knobs, flat top surface, front view, transparent background.
+**Lamp (280x840)** `<style block>` Old table/floor lamp with a warm yellow fabric shade lit from inside, thin dark stand, round base.
 
-**Armchair (260x260)** `<style block>` Worn dusty-rose armchair with a high back, front view, transparent background.
-
-**Floor lamp (140x420)** `<style block>` Old floor lamp with a warm yellow fabric shade and thin dark stand, front view, transparent background. The shade looks lit from inside.
-
-**Rug (760x170)** `<style block>` Oval maroon rug with a gold border pattern, viewed from the front so it is a flat squashed ellipse, transparent background.
-
-**Plant (170x300)** `<style block>` Leafy houseplant in a terracotta pot, front view, transparent background.
-
-## Props
-
-**Soda cans (120x70)** `<style block>` Two standing soda cans (red, blue) and one tipped-over can, transparent background.
-
-**Pizza box (200x90)** `<style block>` Open flat pizza box with a slice missing, seen from the front at floor level, transparent background.
+**Soda cans (240x140)** `<style block>` Two standing soda cans (red, blue) and one tipped-over can.
 
 ## Television
 
-**CRT TV (500x420, transparent corners)** `<style block>` Old grey-black CRT television with a thick rounded plastic bezel, front view. A dark rounded-rectangle screen well on the left 80% (leave it plain black, no reflections), a column on the right with two round dials, a 3x3 button pad and a speaker grille. Below the screen a wide VCR strip with a long dark horizontal cassette slot on the left (about 45% of the width) and a small EJECT button on the right. Subtle wear and scratches.
+**CRT TV (1280x1120, transparent corners)** `<style block>` Old dark grey CRT television with thick rounded plastic
+body, front view. A big dark rounded-rectangle screen well on the left 80% (plain black, no reflection), a column on
+the right with a small display window, a 3x3+1 button pad and a speaker grille. Under the screen a wide black VCR
+panel with one long dark horizontal cassette slot centred under the screen and small grilles left and right of it.
+Two short feet at the bottom. Subtle scuffs.
 
-## Cassettes
+## Cassette
 
-**Spine (92x340 at 2x, transparent)** `<style block>` A single VHS tape seen from the spine, standing upright: black plastic with a wide blank cream label panel filling most of the length, rounded corners.
+**VHS spine (540x92, transparent)** `<style block>` A single VHS cassette lying flat, seen exactly from its
+spine (long thin side facing the viewer): black plastic, a wide blank cream label panel along most of the length,
+small notches at both ends, rounded corners.
 
-**Front (480x264 at 2x, transparent)** `<style block>` A single VHS cassette seen from the front, black plastic, a blank cream label panel across the top half, a dark rectangular window with two white tape reels in the bottom half, small screw details.
+## Mordecai's arms
 
-## Mordecai (blue jay, front view, neutral stance)
-
-Character sheet block, reused in every prompt below:
+Character block, reused below:
 
 ```
-Mordecai-style tall blue jay character: bright mid-blue feathers, lighter blue-white chest, white face mask with large
-round white eyes with small black pupils and heavy dark eyebrows, small black pointed beak, a three-spike feather crest
-on the head, thin blue legs with dark blue feet, relaxed slightly bored expression. Same proportions in every image:
-head about 1/3 of the body height.
+Arm of a tall cartoon blue jay (Mordecai-like): mid-blue feathers with a slightly darker blue edge and a lighter
+highlight stripe, white cartoon glove-like hands with four fingers and dark outlines.
 ```
 
-**Body (400x1040 at 2x, transparent)** `<style block>` `<character block>` Full body from the front, standing, **no arms at all** (the shoulders end in plain round sockets at 63% of the height from the feet, 58 px left and right of centre at 1x), feet exactly at the bottom edge of the image, centred horizontally.
+**Sleeve (192x2000, transparent)** `<style block>` `<character block>` A single long blue arm hanging perfectly straight
+down, shoulder end at the top edge, wrist end at the bottom edge, no hand, slightly tapered, perfectly vertical and
+symmetrical, plain enough to be stretched vertically. Make a second, mirrored copy for the other side.
 
-**Left / right arm (88x400 at 2x, transparent)** `<style block>` `<character block>` A single blue arm hanging straight down, slightly tapered, no hand (ends bluntly), the shoulder end at the top edge, perfectly vertical and symmetrical so it can be rotated around the top centre.
-
-**Left / right hand (128x128 at 2x, transparent)** `<style block>` `<character block>` A single white cartoon glove-like hand, relaxed half-open, four fingers and thumb, centred in the frame, front view; generate a mirrored version for the other side.
+**Hand (240x240, transparent)** `<style block>` `<character block>` One white cartoon hand seen from the back,
+fingers pointing straight up, half open as if about to grab a cassette, thumb to the side, centred in the frame.
+Make a mirrored copy for the other hand.

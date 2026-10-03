@@ -35,7 +35,7 @@ export function setCamera(state: CameraState, focus?: { x: number; y: number }) 
   let ease = 'power3.inOut';
   switch (state) {
     case 'CASSETTE_FOCUS_CAMERA':
-      target = cameraTransform(focus ?? CENTER, 1.14, 0.3);
+      target = cameraTransform(focus ?? CENTER, 1.08, 0.22);
       duration = 1.1;
       break;
     case 'TV_CAMERA':

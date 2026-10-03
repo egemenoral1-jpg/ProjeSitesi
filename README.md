@@ -1,8 +1,9 @@
 # Egemen's Room: an interactive 2D/2.5D cartoon portfolio
 
-There is no portfolio UI here. You are in a dark, cozy cartoon living room. **VHS tapes are the navigation**
-and an **old CRT television is the content interface**. Click a tape and Mordecai walks over, grabs it,
-carries it to the VCR and pushes it in; the TV crackles into static, VHS noise and tracking, then plays the project.
+There is no portfolio UI here. You are sitting in front of an old CRT television in a cozy cartoon living room,
+with VHS tapes stacked on both sides of it. **The tapes are the navigation** and **the TV is the content interface**.
+Click a tape and Mordecai's arm reaches in from the bottom of the frame, grabs it, slides it out of the stack and
+pushes it into the VCR slot; the TV crackles into static, VHS noise and tracking, then plays the project.
 
 Everything is 2D. There is **no Three.js, no WebGL, no 3D models**. The depth comes from independent image
 layers, mouse parallax and a 2D "camera" container moved with CSS transforms (2.5D).
@@ -42,12 +43,13 @@ docs/          ASSETS.md (manifest)  AI-ASSET-PROMPTS.md
 ### Scene and layers
 
 The scene is a fixed 1600x900 "design stage" scaled to the window with one CSS transform
-(`useSceneScale`). On portrait phones it crops to the playable strip (shelf + TV) instead of turning into a normal
-mobile layout. Inside it, `.camera` wraps independent `ParallaxLayer`s:
+(`useSceneScale`). On portrait phones it crops to the playable strip (both tape stacks + TV) instead of turning into
+a normal mobile layout. Inside it, `.camera` wraps independent `ParallaxLayer`s:
 
-`background -> room -> furniture + cassettes -> props -> TV -> Mordecai -> foreground -> lighting`
+`background -> room -> furniture + tape stacks -> props -> TV -> Mordecai's arms -> lighting`
 
-Mordecai is drawn above the TV so his arm can reach in front of it. Layers move with GPU transforms only; the
+Projects are stacked on the left of the TV, About / Skills / Contact on the right. Only Mordecai's arms are in the
+shot: the arms layer is above the TV so the hand can reach the slot. Layers move with GPU transforms only; the
 parallax store updates them with `gsap.quickTo`, so React never re-renders on mouse move. TV barely moves,
 foreground moves most. The room holds still while the cinematic plays so hands line up exactly. Touch devices
 get no mouse parallax.
@@ -65,17 +67,20 @@ React state changes only on these transitions; all motion is imperative GSAP.
 The animation functions are generic. They get a cassette element or a tape, never project data:
 
 ```ts
-animateArmToCassette(cassetteElement)   // step up + stretch the arm until the hand is on the tape
-pickUpCassette(cassetteElement, tape)   // grip, swap shelf tape for the held one, pull back
-carryCassette(tape)                     // walk to the TV, pass tape hand-to-hand, line up with the slot
-insertCassette()                        // push in, squash into the slot, hide
-playTV(tape)                            // black -> static -> noise -> glitch -> tracking -> screen
-returnToIdle()                          // arms down, walk home
+animateArmToCassette(cassetteElement)        // arm reaches in, hand lands on the tape's outer end
+pickUpCassette(cassetteElement, tape)        // grip, slide it out of the stack, tapes above drop down
+carryCassette(cassetteElement)               // bring it in front of the VCR slot
+insertCassette(cassetteElement, tape)        // push it in; it stays in the slot with its label showing
+playTV(tape)                                 // black -> static -> noise -> glitch -> tracking -> screen
+ejectCassette(cassetteElement, tape)         // BACK: pull it out and put it back in its stack
+returnToIdle()                               // arms leave the shot
 ```
 
-Arm model: each arm is a straight tube anchored at the shoulder (`transform-origin` top centre). The code solves
-the angle and stretch needed to put the hand on a target point, then glues the separate hand layer to the end of
-the arm every frame. The held cassette lives inside the hand layer, so it follows the movement automatically.
+Arm model: each arm is a sleeve anchored at a shoulder below the bottom corner of the stage
+(`transform-origin` top centre). The code solves the angle and stretch needed to put the hand on a target point,
+then glues the separate hand layer to the end of the sleeve every frame. The left arm serves the left stack, the
+right arm the right stack. The held cassette lives inside the hand layer (gripped at its outer end), so it follows
+the movement automatically; it scales around the gripped end to suggest depth when it goes into the slot.
 `sequence.ts` chains these steps into the full 20-step "small movie"; `playBackSequence` reverses it.
 
 ### TV
@@ -88,8 +93,8 @@ zoom so it stays readable on desktop and phones.
 ## Add a project
 
 1. Append an object to [`src/data/projects.ts`](src/data/projects.ts).
-2. Done. `data/tapes.ts` turns it into a cassette and the shelf spaces the tapes automatically
-   (the shelf is 420px wide and fits about 8 tapes; widen `SHELF.w` in `config/layout.ts` for more).
+2. Done. `data/tapes.ts` turns it into a cassette and it is added to the top of the left stack
+   (about 9 tapes fit before the stack reaches the top of the TV).
 
 `liveUrl` is optional; without it the LIVE DEMO button is shown disabled. About / Skills / Contact text lives in
 [`src/data/profile.ts`](src/data/profile.ts) (add your `linkedin` URL there; it is hidden while empty).

@@ -7,5 +7,5 @@ export const Background = memo(function Background() {
 });
 
 export const Room = memo(function Room() {
-  return <img className="abs" src={ASSETS.room} alt="" draggable={false} decoding="async" style={{ left: -50, top: -30, width: 1700, height: 960 }} />;
+  return <img className="abs" src={ASSETS.room} alt="" draggable={false} decoding="async" style={{ left: -250, top: -30, width: 2100, height: 960 }} />;
 });

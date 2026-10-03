@@ -1,10 +1,18 @@
 import type { Tape } from '../data/tapes';
 import type { SceneState } from '../state/machine';
 import { sfx } from '../audio/audio';
-import { pointOf, wait } from './rig';
+import { pointOf } from './rig';
 import { setCamera } from './cameraAnimations';
 import { returnToIdle } from './characterAnimations';
-import { animateArmToCassette, carryCassette, insertCassette, pickUpCassette, restoreCassette } from './cassetteAnimations';
+import {
+  animateArmToCassette,
+  carryCassette,
+  ejectCassette,
+  insertCassette,
+  leaveSlot,
+  pickUpCassette,
+  resetCassette,
+} from './cassetteAnimations';
 import { playTV, stopTV } from './tvAnimations';
 import { freezeParallax } from '../utils/parallaxStore';
 
@@ -19,8 +27,7 @@ export async function playCassetteSequence(cassette: HTMLElement, tape: Tape, to
   freezeParallax(true);
   to('SELECTING');
   sfx.play('cassetteClick');
-  const focus = pointOf(cassette);
-  await setCamera('CASSETTE_FOCUS_CAMERA', focus);
+  await setCamera('CASSETTE_FOCUS_CAMERA', pointOf(cassette));
 
   to('REACHING');
   await animateArmToCassette(cassette);
@@ -29,28 +36,24 @@ export async function playCassetteSequence(cassette: HTMLElement, tape: Tape, to
   await pickUpCassette(cassette, tape);
 
   to('CARRYING');
-  await carryCassette(tape);
+  await Promise.all([carryCassette(cassette), setCamera('RETURN_CAMERA')]);
 
   to('INSERTING');
   sfx.play('vhsInsert');
-  await insertCassette();
+  await insertCassette(cassette, tape);
 
   to('PLAYING');
-  const cam = setCamera('TV_CAMERA');
-  const idleArms = wait(0.4).then(() => returnToIdle());
-  await Promise.all([playTV(tape), cam]);
-  await idleArms;
+  await Promise.all([leaveSlot(cassette), playTV(tape), setCamera('TV_CAMERA')]);
   to('VIEWING_PROJECT');
 }
 
-/** BACK: close the project, TV off, camera and Mordecai go home, cassette returns to the shelf. */
-export async function playBackSequence(cassette: HTMLElement | null, to: Report) {
+/** BACK: TV off, camera back, the hand ejects the tape and returns it to its stack. */
+export async function playBackSequence(cassette: HTMLElement | null, tape: Tape | null, to: Report) {
   to('RETURNING');
   sfx.play('buttonClick');
   await stopTV();
-  await Promise.all([setCamera('RETURN_CAMERA'), returnToIdle()]);
-  if (cassette) restoreCassette(cassette);
-  await wait(0.5);
+  await setCamera('RETURN_CAMERA');
+  if (cassette && tape) await ejectCassette(cassette, tape);
   freezeParallax(false);
   to('IDLE');
 }
@@ -59,8 +62,8 @@ export async function playBackSequence(cassette: HTMLElement | null, to: Report)
 export async function recover(cassette: HTMLElement | null, to: Report) {
   to('RETURNING');
   await stopTV().catch(() => undefined);
+  if (cassette) resetCassette(cassette);
   await Promise.all([setCamera('RETURN_CAMERA'), returnToIdle()]);
-  if (cassette) restoreCassette(cassette);
   freezeParallax(false);
   to('IDLE');
 }

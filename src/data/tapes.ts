@@ -22,7 +22,7 @@ const projectTapes: Tape[] = projects.map((p) => ({
 }));
 
 const specialTapes: Tape[] = [
-  { id: 'about', kind: 'about', title: 'About Me', label: 'ABOUT ME', color: '#e9e2c8' },
+  { id: 'about', kind: 'about', title: 'About Me', label: 'ABOUT ME', color: '#3fa7d6' },
   { id: 'skills', kind: 'skills', title: 'Skills', label: 'SKILLS', color: '#7bd84a' },
   { id: 'contact', kind: 'contact', title: 'Contact', label: 'CONTACT', color: '#ff8a3d' },
 ];

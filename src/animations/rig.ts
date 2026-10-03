@@ -26,9 +26,9 @@ export interface ArmParts {
 export interface Rig {
   scene: HTMLElement;
   camera: HTMLElement;
-  character: HTMLElement;
-  bob: HTMLElement;
   arms: Record<Side, ArmParts>;
+  /** the cassette shown sticking out of the VCR slot */
+  slotTape: HTMLElement;
   tv: TVHandle;
   /** current scene scale (design px -> css px) */
   scale: () => number;
@@ -42,7 +42,7 @@ export function registerRig(parts: Partial<Rig>) {
 
 export function getRig(): Rig {
   const r = rigParts as Rig;
-  if (!r.scene || !r.camera || !r.character || !r.arms || !r.tv) throw new Error('Scene rig is not ready');
+  if (!r.scene || !r.camera || !r.arms || !r.tv || !r.slotTape) throw new Error('Scene rig is not ready');
   return r;
 }
 
@@ -57,6 +57,16 @@ export const run = (anim: gsap.core.Animation) =>
 /** Design-space centre of a cassette element (written by VHSCassette as data attributes). */
 export function pointOf(el: HTMLElement) {
   return { x: Number(el.dataset.cx), y: Number(el.dataset.cy) };
+}
+
+/** Which arm serves this cassette (the stack it sits in). */
+export const sideOf = (el: HTMLElement): Side => (el.dataset.stack === 'right' ? 'right' : 'left');
+
+/** Write a tape's label/colour into any tape graphic (shelf copy, held copy, slot copy). */
+export function paintTape(el: HTMLElement, tape: Tape) {
+  el.style.setProperty('--c', tape.color);
+  const label = el.querySelector('.tape-label b');
+  if (label) label.textContent = tape.label;
 }
 
 export const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));

@@ -1,14 +1,14 @@
 import { forwardRef } from 'react';
-import { CHARACTER } from '../../config/layout';
+import { ARMS } from '../../config/layout';
 
 interface Props {
   src: string;
   side: 'left' | 'right';
 }
 
-/** An arm layer: a tube anchored at the shoulder, rotated/stretched by the animation code. */
+/** A sleeve anchored at the shoulder (below the stage), rotated/stretched by the animation code. */
 export const MordecaiArm = forwardRef<HTMLImageElement, Props>(function MordecaiArm({ src, side }, ref) {
-  const sx = side === 'left' ? -CHARACTER.shoulderX : CHARACTER.shoulderX;
+  const s = ARMS.shoulders[side];
   return (
     <img
       ref={ref}
@@ -16,7 +16,7 @@ export const MordecaiArm = forwardRef<HTMLImageElement, Props>(function Mordecai
       src={src}
       alt=""
       draggable={false}
-      style={{ left: sx - CHARACTER.armW / 2, top: CHARACTER.shoulderY, width: CHARACTER.armW, height: CHARACTER.armLen }}
+      style={{ left: s.x - ARMS.w / 2, top: s.y, width: ARMS.w, height: ARMS.len }}
     />
   );
 });
