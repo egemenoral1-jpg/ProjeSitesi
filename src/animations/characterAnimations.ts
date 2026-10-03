@@ -14,7 +14,7 @@ export function handPose(arm: MordecaiArm, pose: HandPose) {
     case 'reach': // palm toward the label, fingers open
       return { finger: new THREE.Vector3(-s * 0.3, 1, 0.15), palm: new THREE.Vector3(0, 0, -1), curl: 0.05 };
     case 'front': // palm on the label, fingers curled over the top edge
-      return { finger: new THREE.Vector3(-s * 0.3, 1, 0.1), palm: new THREE.Vector3(0, 0, -1), curl: 0.55 };
+      return { finger: new THREE.Vector3(-s * 0.3, 1, 0.1), palm: new THREE.Vector3(0, 0, -1), curl: 0.3 };
     case 'push': // flat hand pushing the tape in
       return { finger: new THREE.Vector3(-s * 0.4, 1, 0.1), palm: new THREE.Vector3(0, 0, -1), curl: 0.12 };
     case 'rest':

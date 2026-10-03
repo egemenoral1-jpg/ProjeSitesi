@@ -82,205 +82,159 @@ export function carpetTexture() {
 }
 
 /**
- * The framed portrait on the wall: Pops from Regular Show, painted in full colour in
- * the show's flat, outlined style - big round head, top hat, curly moustache,
- * tuxedo with a bow tie, and a lollipop.
+ * The framed portrait on the wall: Pops from Regular Show in the show's flat,
+ * outlined style - huge pink round head, tiny tilted top hat, big cream
+ * moustache, thin body in a grey vest, one finger raised.
  */
 export function pictureTexture() {
   const W = 640;
   const H = 800;
   const [c, g] = canvas(W, H);
-  const ink = '#26232c';
-  const outlined = (fill: string, width = 7) => {
+  const ink = '#1f1d24';
+  const shape = (fill: string, width = 6) => {
     g.fillStyle = fill;
     g.fill();
     g.lineWidth = width;
     g.strokeStyle = ink;
     g.stroke();
   };
+  const path = (pts: number[], close = true) => {
+    g.beginPath();
+    g.moveTo(pts[0], pts[1]);
+    for (let i = 2; i < pts.length; i += 2) g.lineTo(pts[i], pts[i + 1]);
+    if (close) g.closePath();
+  };
   g.lineJoin = 'round';
   g.lineCap = 'round';
 
-  // studio backdrop
-  const bg = g.createRadialGradient(W / 2, 330, 60, W / 2, 400, 520);
-  bg.addColorStop(0, '#bfe0e6');
-  bg.addColorStop(1, '#7fb1c2');
+  // plain light backdrop
+  const bg = g.createRadialGradient(W / 2, 360, 80, W / 2, 400, 560);
+  bg.addColorStop(0, '#fffdf8');
+  bg.addColorStop(1, '#e9e4da');
   g.fillStyle = bg;
   g.fillRect(0, 0, W, H);
 
-  // tuxedo: shoulders, white shirt, lapels
+  const skin = '#f6e4c4';
+  const pants = '#4b4a52';
+
+  // legs and shoes
+  path([292, 610, 300, 610, 296, 760, 284, 760]);
+  shape(pants, 5);
+  path([340, 610, 350, 610, 356, 760, 344, 760]);
+  shape(pants, 5);
   g.beginPath();
-  g.moveTo(90, H + 10);
-  g.quadraticCurveTo(110, 600, 230, 575);
-  g.lineTo(410, 575);
-  g.quadraticCurveTo(530, 600, 550, H + 10);
-  g.closePath();
-  outlined('#2b2a33');
+  g.ellipse(276, 768, 28, 11, 0, 0, Math.PI * 2);
+  shape('#26252b', 4);
   g.beginPath();
-  g.moveTo(262, 575);
-  g.lineTo(320, 760);
-  g.lineTo(378, 575);
-  g.closePath();
-  outlined('#fbfaf6', 5);
+  g.ellipse(362, 768, 28, 11, 0, 0, Math.PI * 2);
+  shape('#26252b', 4);
+
+  // left arm hanging down (cream sleeve, small hand)
+  path([262, 470, 274, 472, 262, 600, 250, 598]);
+  shape(skin, 5);
   g.beginPath();
-  g.moveTo(232, 578);
-  g.lineTo(300, 700);
-  g.lineTo(262, 576);
-  g.moveTo(408, 578);
-  g.lineTo(340, 700);
-  g.lineTo(378, 576);
-  outlined('#1d1c23', 4);
-  // buttons
-  g.fillStyle = ink;
-  for (const y of [665, 705]) {
+  g.ellipse(255, 610, 13, 16, 0.2, 0, Math.PI * 2);
+  shape(skin, 4);
+  // right arm raised, index finger up
+  path([366, 472, 378, 480, 512, 452, 506, 440]);
+  shape(skin, 5);
+  path([506, 440, 516, 448, 548, 392, 538, 386]);
+  shape(skin, 5);
+  g.beginPath();
+  g.ellipse(545, 380, 14, 16, 0, 0, Math.PI * 2);
+  shape(skin, 4);
+  path([541, 368, 549, 368, 551, 330, 543, 330]);
+  shape(skin, 4);
+  g.beginPath();
+  g.arc(547, 330, 4, Math.PI, 0);
+  g.stroke();
+
+  // thin torso: white shirt with a dark grey vest
+  path([270, 470, 370, 470, 362, 620, 278, 620]);
+  shape('#fbfaf5', 5);
+  path([278, 478, 318, 470, 322, 620, 284, 620]);
+  shape('#3e3d45', 5);
+  path([362, 478, 322, 470, 318, 620, 356, 620]);
+  shape('#3e3d45', 5);
+  g.fillStyle = '#cfcbd6';
+  for (const y of [520, 560, 600]) {
     g.beginPath();
-    g.arc(320, y, 6, 0, Math.PI * 2);
+    g.arc(320, y, 4, 0, Math.PI * 2);
     g.fill();
   }
+  // neck
+  path([308, 440, 332, 440, 330, 474, 310, 474]);
+  shape(skin, 5);
 
-  // thin neck
+  // the huge pink round head
   g.beginPath();
-  g.rect(300, 500, 40, 90);
-  outlined('#f3ebdf', 5);
-
-  // red bow tie
-  g.beginPath();
-  g.moveTo(320, 590);
-  g.lineTo(268, 562);
-  g.lineTo(268, 618);
-  g.closePath();
-  g.moveTo(320, 590);
-  g.lineTo(372, 562);
-  g.lineTo(372, 618);
-  g.closePath();
-  outlined('#c8343c', 5);
-  g.beginPath();
-  g.arc(320, 590, 11, 0, Math.PI * 2);
-  outlined('#a62930', 4);
-
-  // the big round lollipop-like head
-  g.beginPath();
-  g.arc(320, 330, 182, 0, Math.PI * 2);
-  outlined('#f6eee3', 8);
-  // soft shading on the lower side
+  g.arc(320, 250, 205, 0, Math.PI * 2);
+  shape('#f8c4c6', 8);
   g.save();
-  g.clip();
-  g.fillStyle = 'rgba(190,160,140,0.18)';
   g.beginPath();
-  g.ellipse(360, 440, 190, 110, -0.3, 0, Math.PI * 2);
+  g.arc(320, 250, 201, 0, Math.PI * 2);
+  g.clip();
+  g.fillStyle = 'rgba(214,120,130,0.16)';
+  g.beginPath();
+  g.ellipse(380, 360, 210, 120, -0.4, 0, Math.PI * 2);
+  g.fill();
+  g.fillStyle = 'rgba(255,255,255,0.35)';
+  g.beginPath();
+  g.ellipse(240, 140, 60, 34, -0.6, 0, Math.PI * 2);
   g.fill();
   g.restore();
+
+  // tiny top hat, tilted, sitting on the upper left of the head
+  g.save();
+  g.translate(250, 60);
+  g.rotate(-0.28);
   g.beginPath();
-  g.arc(320, 330, 182, 0, Math.PI * 2);
-  g.lineWidth = 8;
-  g.strokeStyle = ink;
-  g.stroke();
+  g.ellipse(0, 0, 48, 11, 0, 0, Math.PI * 2);
+  shape('#26252b', 5);
+  path([-28, 0, -24, -62, 24, -62, 28, 0]);
+  shape('#26252b', 5);
+  path([-27, -14, 27, -14, 26, -24, -26, -24]);
+  shape('#55535d', 3);
+  g.restore();
 
-  // rosy cheeks
-  g.fillStyle = 'rgba(240,140,150,0.45)';
-  for (const x of [222, 418]) {
-    g.beginPath();
-    g.ellipse(x, 372, 34, 22, 0, 0, Math.PI * 2);
-    g.fill();
-  }
-
-  // eyes and brows
+  // small eyes looking up, tiny brows
   g.fillStyle = ink;
-  for (const x of [262, 378]) {
+  for (const x of [286, 352]) {
     g.beginPath();
-    g.ellipse(x, 300, 12, 17, 0, 0, Math.PI * 2);
+    g.ellipse(x, 236, 8, 11, 0, 0, Math.PI * 2);
     g.fill();
-    g.fillStyle = '#ffffff';
-    g.beginPath();
-    g.arc(x + 4, 293, 4, 0, Math.PI * 2);
-    g.fill();
-    g.fillStyle = ink;
   }
-  g.lineWidth = 6;
+  g.lineWidth = 5;
   g.strokeStyle = ink;
-  for (const [x, d] of [[262, -1], [378, 1]] as const) {
-    g.beginPath();
-    g.arc(x, 262, 26, Math.PI * (1.2 + (d > 0 ? 0.05 : -0.05)), Math.PI * (1.8 + (d > 0 ? 0.05 : -0.05)));
-    g.stroke();
-  }
-  // small round nose
   g.beginPath();
-  g.arc(320, 345, 15, 0, Math.PI * 2);
-  outlined('#f1dccd', 5);
-
-  // big curly black moustache
-  g.beginPath();
-  g.moveTo(320, 372);
-  g.bezierCurveTo(290, 352, 230, 356, 205, 390);
-  g.bezierCurveTo(192, 410, 208, 432, 226, 420);
-  g.bezierCurveTo(214, 410, 220, 396, 236, 396);
-  g.bezierCurveTo(262, 398, 292, 400, 320, 392);
-  g.bezierCurveTo(348, 400, 378, 398, 404, 396);
-  g.bezierCurveTo(420, 396, 426, 410, 414, 420);
-  g.bezierCurveTo(432, 432, 448, 410, 435, 390);
-  g.bezierCurveTo(410, 356, 350, 352, 320, 372);
-  g.closePath();
-  outlined('#2a2730', 5);
-
-  // happy open smile
-  g.beginPath();
-  g.moveTo(268, 420);
-  g.quadraticCurveTo(320, 478, 372, 420);
-  g.quadraticCurveTo(320, 440, 268, 420);
-  g.closePath();
-  outlined('#8e2c3a', 5);
-
-  // top hat sitting on top of the head
-  g.beginPath();
-  g.ellipse(320, 168, 120, 26, 0, 0, Math.PI * 2);
-  outlined('#1d1c22', 6);
-  g.beginPath();
-  g.moveTo(244, 168);
-  g.lineTo(254, 34);
-  g.quadraticCurveTo(320, 18, 386, 34);
-  g.lineTo(396, 168);
-  g.quadraticCurveTo(320, 182, 244, 168);
-  g.closePath();
-  outlined('#1d1c22', 6);
-  g.beginPath();
-  g.moveTo(248, 128);
-  g.quadraticCurveTo(320, 142, 392, 128);
-  g.lineTo(394, 152);
-  g.quadraticCurveTo(320, 166, 246, 152);
-  g.closePath();
-  outlined('#55535e', 4);
-  g.strokeStyle = 'rgba(255,255,255,0.25)';
-  g.lineWidth = 8;
-  g.beginPath();
-  g.moveTo(272, 50);
-  g.lineTo(266, 120);
+  g.moveTo(272, 212);
+  g.lineTo(298, 206);
+  g.moveTo(340, 206);
+  g.lineTo(366, 212);
   g.stroke();
 
-  // swirly lollipop
-  g.lineWidth = 9;
-  g.strokeStyle = '#f2efe6';
+  // reddish little nose
   g.beginPath();
-  g.moveTo(520, 760);
-  g.lineTo(560, 560);
-  g.stroke();
+  g.ellipse(320, 268, 15, 12, 0, 0, Math.PI * 2);
+  shape('#c1563f', 4);
+
+  // big cream moustache with curled ends
   g.beginPath();
-  g.arc(566, 520, 50, 0, Math.PI * 2);
-  outlined('#ffffff', 6);
-  g.strokeStyle = '#e0457b';
-  g.lineWidth = 12;
+  g.moveTo(320, 280);
+  g.bezierCurveTo(296, 270, 250, 276, 232, 300);
+  g.bezierCurveTo(220, 318, 236, 340, 254, 328);
+  g.bezierCurveTo(246, 318, 252, 306, 266, 308);
+  g.bezierCurveTo(286, 312, 304, 308, 320, 300);
+  g.bezierCurveTo(336, 308, 354, 312, 374, 308);
+  g.bezierCurveTo(388, 306, 394, 318, 386, 328);
+  g.bezierCurveTo(404, 340, 420, 318, 408, 300);
+  g.bezierCurveTo(390, 276, 344, 270, 320, 280);
+  g.closePath();
+  shape('#f3e2b0', 5);
+  // small smile under it
   g.beginPath();
-  for (let a = 0; a < Math.PI * 6; a += 0.1) {
-    const r = 4 + a * 2.2;
-    const x = 566 + Math.cos(a) * r;
-    const y = 520 + Math.sin(a) * r;
-    if (a === 0) g.moveTo(x, y);
-    else g.lineTo(x, y);
-  }
-  g.stroke();
-  g.beginPath();
-  g.arc(566, 520, 50, 0, Math.PI * 2);
-  g.lineWidth = 6;
-  g.strokeStyle = ink;
+  g.arc(320, 316, 16, 0.2 * Math.PI, 0.8 * Math.PI);
+  g.lineWidth = 4;
   g.stroke();
   return toTexture(c);
 }

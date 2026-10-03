@@ -56,8 +56,8 @@ export class MordecaiArm {
     this.sign = side === 'right' ? 1 : -1;
     // flat cartoon colours, outlined by the OutlineEffect like the show's drawings
     const blue = toon(PALETTE.mordecai);
-    // fingers get a fine contour; a thick one would swallow the thin tips and turn them black
-    const finger = thinOutline(toon(PALETTE.mordecai), 0.0013);
+    // pointed fingers with clear black contour lines around and between them, like the show
+    const finger = thinOutline(toon(PALETTE.mordecai), 0.0036);
     const white = toon(PALETTE.white);
     const r = ARM.radius;
 
@@ -89,8 +89,8 @@ export class MordecaiArm {
 
   /**
    * Hand in local space: fingers along +y, palm facing -z, knuckles +z.
-   * Mordecai's hand: a rounded palm and soft, rounded, slightly flat fingers
-   * (see the reference frames from the show).
+   * Mordecai's hand: a rounded palm and long, flat, pointed fingers like feather
+   * tips, each outlined in black (see the reference frames from the show).
    */
   private buildHand(blue: THREE.Material, fingerMat: THREE.Material) {
     const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 20), blue);
@@ -99,12 +99,12 @@ export class MordecaiArm {
     this.hand.add(palm);
 
     const fingerX = [-0.03, -0.01, 0.01, 0.03];
-    const splay = [0.2, 0.07, -0.07, -0.2];
+    const splay = [0.3, 0.1, -0.1, -0.3];
     const scale = [0.88, 1, 0.96, 0.82];
     fingerX.forEach((fx, i) => {
       const s = scale[i];
-      const lens = [0.03 * s, 0.026 * s, 0.024 * s];
-      const rads = [0.0125, 0.0118, 0.011];
+      const lens = [0.03 * s, 0.026 * s, 0.05 * s];
+      const rads = [0.0125, 0.0115, 0.0112];
       const joints: THREE.Group[] = [];
       let parent: THREE.Object3D = this.hand;
       lens.forEach((len, j) => {
@@ -115,10 +115,11 @@ export class MordecaiArm {
         } else {
           joint.position.y = lens[j - 1];
         }
-        // rounded segments; the tip is just a shorter capsule
-        const seg = new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 8, 16), fingerMat);
+        // the last segment is a long point, like the tip of a feather
+        const seg =
+          j < 2 ? new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 8, 16), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(rads[j], len, 20), fingerMat);
         seg.position.y = len / 2;
-        seg.scale.z = 0.8;
+        seg.scale.z = 0.72;
         joint.add(seg);
         parent.add(joint);
         parent = joint;
@@ -138,9 +139,10 @@ export class MordecaiArm {
       } else {
         joint.position.y = 0.032;
       }
-      const seg = new THREE.Mesh(new THREE.CapsuleGeometry(j === 0 ? 0.0135 : 0.0125, len, 8, 16), fingerMat);
-      seg.position.y = len / 2;
-      seg.scale.z = 0.85;
+      const seg =
+        j === 0 ? new THREE.Mesh(new THREE.CapsuleGeometry(0.0135, len, 8, 16), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(0.0125, len * 1.4, 20), fingerMat);
+      seg.position.y = j === 0 ? len / 2 : (len * 1.4) / 2;
+      seg.scale.z = 0.78;
       joint.add(seg);
       parent.add(joint);
       parent = joint;

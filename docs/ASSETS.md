@@ -30,7 +30,7 @@ Units are metres: +x right, +y up, +z toward the viewer. All positions/sizes liv
 
 The shoulder is placed just outside the bottom corner of the view for every sequence (`World.prepareArm`), and the
 arm is lengthened if a target is far (portrait phones). Like Mordecai in the show it is light blue with two white
-stripes near the wrist, and the hand has soft, rounded fingers with a fine contour (drawn 1.3x life size).
+stripes near the wrist, and the hand has spread, pointed feather-tip fingers, each outlined in black (drawn 1.3x life size).
 
 To use a rigged hand model (GLB) instead: load it once, add it under `hand` in place of `buildHand`, and map
 `curl` to the finger bones in `update()`. Nothing else changes.
@@ -55,5 +55,5 @@ The show's own theme is copyrighted, so it is not included. To use a music file 
 
 ## The portrait on the wall
 
-`pictureTexture()` in `src/three/textures.ts` paints Pops in full colour in the show's flat, outlined style: big
-round head, top hat, curly moustache, rosy cheeks, tuxedo with a red bow tie and a swirly lollipop.
+`pictureTexture()` in `src/three/textures.ts` paints Pops in full colour in the show's flat, outlined style: huge
+pink round head, tiny tilted top hat, red nose, big cream moustache, thin body in a grey vest, one finger raised.
