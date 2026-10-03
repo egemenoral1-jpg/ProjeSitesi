@@ -57,6 +57,12 @@ button { font: inherit; color: inherit; }
   padding: 4px 10px; font-size: 18px; letter-spacing: .1em; cursor: pointer; opacity: .6;
 }
 .sound-toggle:hover, .sound-toggle:focus-visible { opacity: 1; }
+.cv-link {
+  position: fixed; z-index: 45; left: 12px; bottom: 12px; text-decoration: none; color: inherit;
+  background: rgba(20, 16, 30, .75); border: 1px solid rgba(255, 255, 255, .25); border-radius: 4px;
+  padding: 4px 10px; font-size: 18px; letter-spacing: .1em; opacity: .6;
+}
+.cv-link:hover, .cv-link:focus-visible { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .hint, .mote { animation: none; }

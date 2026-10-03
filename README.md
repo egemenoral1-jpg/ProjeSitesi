@@ -94,7 +94,11 @@ hand GLB) can replace it without touching the animation code.
 
 ## Deployment
 
-`.github/workflows/deploy.yml` runs on every push to `main`: checkout, `npm ci`, `npm run build`, then publishes
-`dist/` with the official GitHub Pages actions. Enable it once under **Settings -> Pages -> Source: GitHub Actions**.
-The build uses relative paths (`base: './'`), so it works at `https://<user>.github.io/<repo>/`. There are no secrets
-or API keys in the front-end code (the GitHub API is called without a token).
+**Vercel (recommended):** import the GitHub repo at vercel.com/new. `vercel.json` already sets the Vite build
+(`npm ci`, `npm run build`, output `dist`), so just press Deploy; every push to `main` redeploys automatically.
+
+**GitHub Pages (alternative):** `.github/workflows/deploy.yml` builds and publishes `dist/` on every push to `main`
+once **Settings -> Pages -> Source: GitHub Actions** is enabled. The build uses relative paths (`base: './'`), so it
+works at any URL. There are no secrets or API keys in the front-end code (the GitHub API is called without a token).
+
+The room links back to the CV site (bottom-left "← CV"), and the CV site links into the room.
