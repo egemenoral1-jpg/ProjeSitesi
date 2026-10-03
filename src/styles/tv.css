@@ -75,7 +75,7 @@
 .chips span { border: 1px solid var(--c); color: var(--c); padding: 0 .55em; border-radius: 99px; }
 .btns { display: flex; flex-wrap: wrap; gap: .5em .8em; margin-top: 1em; }
 .btns.col { flex-direction: column; align-items: flex-start; margin-top: .3em; }
-.btns.back { margin-top: 1.1em; }
+.btns.back { margin-top: 1.1em; position: sticky; bottom: -.3em; padding: .8em 0 .1em; background: linear-gradient(transparent, #040b0c 45%); }
 .btn {
   font: inherit; color: #04100f; background: var(--c); border: 0; cursor: pointer; text-decoration: none;
   padding: .15em .6em; text-shadow: none; letter-spacing: .06em; display: inline-block;
