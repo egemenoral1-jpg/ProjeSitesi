@@ -114,7 +114,10 @@ export class MordecaiArm {
       }
     });
     // black contour: a bit finer on the fingers so the pointed tips stay crisp
-    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.0055 : 0.0085));
+    addHulls(this.root, (m) => {
+      const u = (m.material as THREE.Material).userData;
+      return u.isInk ? 0 : u.isFinger ? 0.0055 : 0.0085;
+    });
     this.root.visible = false;
   }
 
@@ -124,6 +127,15 @@ export class MordecaiArm {
    * tips, each outlined in black (see the reference frames from the show).
    */
   private buildHand(blue: THREE.Material, fingerMat: THREE.Material) {
+    // black ink band drawn across a finger at a knuckle
+    const ink = noOutline(new THREE.MeshBasicMaterial({ color: '#0d0c12', side: THREE.DoubleSide }));
+    ink.userData.isInk = true;
+    const crease = (joint: THREE.Group, radius: number) => {
+      const band = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.1, radius * 1.1, 0.0032, 24, 1, true), ink);
+      band.scale.z = 0.72;
+      joint.add(band);
+    };
+
     const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 20), blue);
     palm.scale.set(0.048, 0.052, 0.02);
     palm.position.set(0, 0.048, 0);
@@ -145,6 +157,7 @@ export class MordecaiArm {
           joint.rotation.z = splay[i];
         } else {
           joint.position.y = lens[j - 1];
+          crease(joint, Math.max(rads[j - 1], rads[j]));
         }
         // the last segment is a long point, like the tip of a feather
         const seg =
@@ -169,6 +182,7 @@ export class MordecaiArm {
         joint.rotation.z = this.sign * 0.85;
       } else {
         joint.position.y = 0.032;
+        crease(joint, 0.0135);
       }
       const seg =
         j === 0 ? new THREE.Mesh(new THREE.CapsuleGeometry(0.0135, len, 8, 16), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(0.0125, len * 1.4, 20), fingerMat);
