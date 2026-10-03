@@ -1,9 +1,12 @@
 /**
  * 3D scene geometry in metres. +x right, +y up, +z towards the viewer.
- * The table top is at y = TABLE.topY; the TV stands in the middle of it,
- * tapes are stacked on both sides, the wall is behind.
+ * A Regular Show style living room: the TV stands on a wooden cabinet against
+ * the wall (top at TABLE.topY), tapes are stacked on both sides of it, the
+ * staircase climbs on the right, a framed picture hangs on the left.
  */
-export const TABLE = { topY: 0.75, width: 2.8, depth: 0.95, z: 0.08, thickness: 0.06 } as const;
+export const TABLE = { topY: 0.75, width: 1.86, depth: 0.62, z: 0.0, thickness: 0.05 } as const;
+
+export const STAIRS = { startX: 1.0, steps: 10, run: 0.27, rise: 0.19, depth: 0.62 } as const;
 
 export const WALL_Z = -0.55;
 
@@ -43,9 +46,9 @@ export function tapeHome(stack: StackId, slot: number) {
 export const CAMERA = {
   fov: 36,
   /** idle: what the camera looks at, and how much width must stay in view */
-  look: { x: 0, y: 1.06, z: 0 },
-  height: 1.26,
-  fitHalfWidth: 0.9,
+  look: { x: 0.05, y: 1.08, z: 0 },
+  height: 1.3,
+  fitHalfWidth: 1.22,
   /** portrait screens: a wider vertical field of view so the room is not tiny */
   portraitFov: 52,
 } as const;

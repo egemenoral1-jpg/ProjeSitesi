@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { ARM, TAPE } from '../config/layout';
 import type { StackId } from '../config/layout';
+import { PALETTE, thinOutline, toon } from './toon';
 
 export type GripMode = 'end' | 'front';
 
@@ -9,8 +10,10 @@ const tmp = new THREE.Vector3();
 const tmp2 = new THREE.Vector3();
 const mat = new THREE.Matrix4();
 
+/** The hand is modelled at life size and drawn a bit bigger, cartoon style. */
+const HAND_SCALE = 1.3;
 /** How far the palm centre sits from the wrist, along the fingers. */
-const PALM_OFFSET = 0.055;
+const PALM_OFFSET = 0.05 * HAND_SCALE;
 
 /**
  * One of Mordecai's arms: shoulder -> elbow -> wrist solved with two-bone IK,
@@ -51,9 +54,10 @@ export class MordecaiArm {
 
   constructor(readonly side: StackId) {
     this.sign = side === 'right' ? 1 : -1;
-    const blue = new THREE.MeshPhysicalMaterial({ color: '#4aa3e6', roughness: 0.48, clearcoat: 0.3, clearcoatRoughness: 0.5, sheen: 0.4, sheenColor: new THREE.Color('#bfe3ff') });
-    const blueDark = new THREE.MeshPhysicalMaterial({ color: '#3a8fd4', roughness: 0.5, clearcoat: 0.25 });
-    const white = new THREE.MeshPhysicalMaterial({ color: '#f6f8fb', roughness: 0.55, clearcoat: 0.2 });
+    // flat cartoon colours, outlined by the OutlineEffect like the show's drawings
+    const blue = toon(PALETTE.mordecai);
+    const finger = thinOutline(toon(PALETTE.mordecai), 0.003);
+    const white = toon(PALETTE.white);
     const r = ARM.radius;
 
     // limbs are unit-length cylinders scaled along y
@@ -62,7 +66,7 @@ export class MordecaiArm {
     this.foreMesh = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.82, r * 0.96, 1, 28, 1, true), blue);
     this.fore.add(this.foreMesh);
     for (let i = 0; i < 2; i++) {
-      const band = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.93, r * 0.95, 0.03, 28), white);
+      const band = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.9, r * 0.93, 0.034, 28), white);
       this.bands.push(band);
       this.fore.add(band);
     }
@@ -71,7 +75,8 @@ export class MordecaiArm {
     this.wristBall = new THREE.Mesh(new THREE.SphereGeometry(r * 0.83, 24, 16), blue);
     this.root.add(this.upper, this.fore, this.shoulderBall, this.elbowBall, this.wristBall, this.hand);
 
-    this.buildHand(blue, blueDark);
+    this.buildHand(blue, finger);
+    this.hand.scale.setScalar(HAND_SCALE);
     this.root.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         o.castShadow = true;
@@ -81,40 +86,39 @@ export class MordecaiArm {
     this.root.visible = false;
   }
 
-  /** Hand in local space: fingers along +y, palm facing -z, knuckles +z. */
-  private buildHand(blue: THREE.Material, blueDark: THREE.Material) {
+  /**
+   * Hand in local space: fingers along +y, palm facing -z, knuckles +z.
+   * Mordecai's hand: a small rounded palm and long, flat, pointed fingers like
+   * feather tips (see the reference frame from the show).
+   */
+  private buildHand(blue: THREE.Material, fingerMat: THREE.Material) {
     const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 20), blue);
-    palm.scale.set(0.046, 0.054, 0.021);
-    palm.position.set(0, 0.05, 0);
+    palm.scale.set(0.048, 0.052, 0.02);
+    palm.position.set(0, 0.048, 0);
     this.hand.add(palm);
-    const knuckles = new THREE.Mesh(new THREE.CapsuleGeometry(0.014, 0.06, 6, 12), blue);
-    knuckles.rotation.z = Math.PI / 2;
-    knuckles.position.set(0, 0.092, 0.002);
-    this.hand.add(knuckles);
 
-    // Mordecai's fingers: long, tapering, pointed like feathers
-    const fingerX = [-0.031, -0.0105, 0.0105, 0.031];
-    const splay = [0.16, 0.05, -0.05, -0.16];
-    const scale = [0.86, 1, 0.97, 0.8];
+    const fingerX = [-0.03, -0.01, 0.01, 0.03];
+    const splay = [0.2, 0.07, -0.07, -0.2];
+    const scale = [0.88, 1, 0.96, 0.82];
     fingerX.forEach((fx, i) => {
       const s = scale[i];
-      const lens = [0.036 * s, 0.03 * s, 0.03 * s];
-      const rads = [0.0105, 0.0094, 0.0084];
+      const lens = [0.03 * s, 0.026 * s, 0.05 * s];
+      const rads = [0.0115, 0.01, 0.0095];
       const joints: THREE.Group[] = [];
       let parent: THREE.Object3D = this.hand;
       lens.forEach((len, j) => {
         const joint = new THREE.Group();
         if (j === 0) {
-          joint.position.set(fx, 0.098, 0);
+          joint.position.set(fx, 0.088, 0);
           joint.rotation.z = splay[i];
         } else {
           joint.position.y = lens[j - 1];
         }
+        // the last segment is a long flat point, like the tip of a feather
         const seg =
-          j < 2
-            ? new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 6, 12), j === 0 ? blue : blue)
-            : new THREE.Mesh(new THREE.ConeGeometry(rads[j], len * 1.25, 14), blueDark);
-        seg.position.y = j < 2 ? len / 2 : (len * 1.25) / 2;
+          j < 2 ? new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 6, 12), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(rads[j], len, 16), fingerMat);
+        seg.position.y = len / 2;
+        seg.scale.z = 0.62;
         joint.add(seg);
         parent.add(joint);
         parent = joint;
@@ -134,8 +138,9 @@ export class MordecaiArm {
       } else {
         joint.position.y = 0.032;
       }
-      const seg = j === 0 ? new THREE.Mesh(new THREE.CapsuleGeometry(0.0125, len, 6, 12), blue) : new THREE.Mesh(new THREE.ConeGeometry(0.011, len * 1.3, 14), blueDark);
-      seg.position.y = j === 0 ? len / 2 : (len * 1.3) / 2;
+      const seg = j === 0 ? new THREE.Mesh(new THREE.CapsuleGeometry(0.0125, len, 6, 12), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(0.011, len * 1.4, 14), fingerMat);
+      seg.position.y = j === 0 ? len / 2 : (len * 1.4) / 2;
+      seg.scale.z = 0.7;
       joint.add(seg);
       parent.add(joint);
       parent = joint;
@@ -176,7 +181,7 @@ export class MordecaiArm {
       return out.set(-this.sign * (TAPE.w / 2 - 0.045), -(0.024 + TAPE.h / 2), 0).add(palmCentre);
     }
     // palm pressed on the label side, near the outer end
-    return out.set(-this.sign * 0.075, 0, -(0.02 + TAPE.d / 2)).add(palmCentre);
+    return out.set(-this.sign * 0.075, 0, -(0.02 * HAND_SCALE + TAPE.d / 2)).add(palmCentre);
   }
 
   /** Inverse of tapeCentre: wrist position that holds a tape centred on `centre`. */

@@ -1,7 +1,8 @@
 # Egemen's Room: an interactive 3D cartoon portfolio
 
-There is no portfolio UI here. You sit in front of an old CRT television that shows snow, on a wooden table in a
-Regular Show style living room (grey strip, purple wall). VHS tapes are stacked on both sides of the TV: **each tape
+There is no portfolio UI here. You sit in the living room from Regular Show (cream walls, green carpet, the yellow
+staircase, a framed drawing, a floor lamp), drawn in 3D with cartoon cel shading and outlines, in front of an old grey
+CRT on a wooden cabinet that shows snow. VHS tapes are stacked on both sides of the TV: **each tape
 is one of my GitHub projects** and **the TV is the content interface**.
 
 Click a tape and Mordecai's arm reaches into the shot, grips the tape by its label, slides it out of the pile (the
@@ -23,7 +24,7 @@ where it was.
 ## Stack
 
 - React 18 + TypeScript + Vite
-- three.js for the 3D room (procedural models, canvas textures, soft shadows, environment reflections)
+- three.js for the 3D room (procedural models, canvas textures, toon shading + OutlineEffect, shadows)
 - GSAP for every animation (camera, arm, hand, tapes, TV)
 - HTML/CSS for the project screen, placed exactly over the 3D CRT glass with scanlines and VHS effects
 

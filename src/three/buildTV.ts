@@ -2,22 +2,23 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { TABLE, TV } from '../config/layout';
 import { ScreenTexture } from './ScreenTexture';
+import { noOutline, PALETTE, thinOutline, toon } from './toon';
 
 export interface TVObject {
   group: THREE.Group;
   screen: ScreenTexture;
   light: THREE.PointLight;
-  led: THREE.MeshStandardMaterial;
+  led: THREE.MeshToonMaterial;
 }
 
 /** A CRT television with a built-in VCR, front facing +z. */
 export function buildTV(): TVObject {
   const g = new THREE.Group();
-  const plastic = new THREE.MeshPhysicalMaterial({ color: '#2a2a30', roughness: 0.42, clearcoat: 0.4, clearcoatRoughness: 0.35 });
-  const plasticDark = new THREE.MeshPhysicalMaterial({ color: '#1d1d22', roughness: 0.45, clearcoat: 0.3 });
-  const bezel = new THREE.MeshPhysicalMaterial({ color: '#4b4b55', roughness: 0.5, clearcoat: 0.2 });
-  const black = new THREE.MeshStandardMaterial({ color: '#060607', roughness: 0.65 });
-  const grey = new THREE.MeshStandardMaterial({ color: '#9b9ba4', roughness: 0.45 });
+  const plastic = toon(PALETTE.tvGrey);
+  const plasticDark = toon('#777880');
+  const bezel = toon(PALETTE.tvDark);
+  const black = thinOutline(toon('#18181d'));
+  const grey = thinOutline(toon('#d2d2d8'), 0.0018);
   const add = (m: THREE.Mesh, shadow = true) => {
     m.castShadow = shadow;
     m.receiveShadow = true;
@@ -49,12 +50,12 @@ export function buildTV(): TVObject {
     pos.setZ(i, 0.016 * (1 - nx * nx * 0.7) * (1 - ny * ny * 0.7));
   }
   curved.computeVertexNormals();
-  const picture = new THREE.Mesh(curved, new THREE.MeshBasicMaterial({ map: screen.texture, toneMapped: false }));
+  const picture = new THREE.Mesh(curved, noOutline(new THREE.MeshBasicMaterial({ map: screen.texture, toneMapped: false })));
   picture.position.set(s.x, s.y, TV.frontZ + 0.012);
   g.add(picture);
   const glass = new THREE.Mesh(
     curved.clone(),
-    new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: 0.1, roughness: 0.06, metalness: 0, clearcoat: 1, envMapIntensity: 2.2 }),
+    noOutline(new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: 0.1, roughness: 0.06, metalness: 0, clearcoat: 1, envMapIntensity: 2.2 })),
   );
   glass.position.set(s.x, s.y, TV.frontZ + 0.0145);
   g.add(glass);
@@ -72,7 +73,7 @@ export function buildTV(): TVObject {
     add(new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.0075, 0.006), black), false).position.set(px, 1.15 - i * 0.017, z + 0.002);
   }
   add(new THREE.Mesh(new RoundedBoxGeometry(0.05, 0.018, 0.012, 2, 0.004), grey), false).position.set(px - 0.012, 0.985, z + 0.005);
-  const led = new THREE.MeshStandardMaterial({ color: '#330808', emissive: '#ff2a2a', emissiveIntensity: 0.15 });
+  const led = noOutline(toon('#330808', { emissive: '#ff2a2a', emissiveIntensity: 0.15 }));
   add(new THREE.Mesh(new THREE.SphereGeometry(0.0055, 12, 8), led), false).position.set(px + 0.038, 0.985, z + 0.004);
 
   // VCR base: slot, round buttons, little grilles

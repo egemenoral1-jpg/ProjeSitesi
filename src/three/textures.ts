@@ -37,61 +37,98 @@ export async function loadFonts() {
   ]).catch(() => undefined);
 }
 
-/** Purple wallpaper with soft vertical stripes and a little grain. */
-export function wallpaperTexture() {
+/** Flat cream wall paint with a very faint brush texture. */
+export function wallTexture() {
   const [c, g] = canvas(512, 512);
-  g.fillStyle = '#5f4f86';
+  g.fillStyle = '#f8e7cb';
   g.fillRect(0, 0, 512, 512);
-  for (let x = 0; x < 512; x += 64) {
-    g.fillStyle = 'rgba(255,255,255,0.035)';
-    g.fillRect(x, 0, 30, 512);
-    g.fillStyle = 'rgba(0,0,0,0.05)';
-    g.fillRect(x + 30, 0, 2, 512);
-  }
   const r = rng(7);
-  for (let i = 0; i < 9000; i++) {
-    g.fillStyle = `rgba(${r() > 0.5 ? '255,255,255' : '0,0,0'},${0.025 * r()})`;
-    g.fillRect(r() * 512, r() * 512, 2, 2);
+  for (let i = 0; i < 260; i++) {
+    g.fillStyle = `rgba(${r() > 0.5 ? '255,255,255' : '170,120,60'},${0.03 * r()})`;
+    g.fillRect(r() * 512, r() * 512, 2 + r() * 40, 1 + r() * 3);
   }
-  return toTexture(c, [6, 3]);
+  return toTexture(c, [4, 2]);
 }
 
-/** Warm wood with grain lines, for the table. */
+/** Warm wood with grain lines, for the TV cabinet. */
 export function woodTexture() {
   const [c, g] = canvas(1024, 256);
-  const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, '#c58d55');
-  grad.addColorStop(1, '#b27a45');
-  g.fillStyle = grad;
+  g.fillStyle = '#9a6640';
   g.fillRect(0, 0, 1024, 256);
   const r = rng(11);
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 46; i++) {
     const y = r() * 256;
-    g.strokeStyle = `rgba(90,50,20,${0.08 + r() * 0.14})`;
+    g.strokeStyle = `rgba(70,38,16,${0.1 + r() * 0.16})`;
     g.lineWidth = 1 + r() * 2.5;
     g.beginPath();
     g.moveTo(0, y);
     for (let x = 0; x <= 1024; x += 64) g.lineTo(x, y + Math.sin(x / (80 + r() * 60) + i) * (3 + r() * 5));
     g.stroke();
   }
-  return toTexture(c, [2, 1]);
+  return toTexture(c, [1, 1]);
 }
 
-/** Dark floor boards. */
-export function floorTexture() {
-  const [c, g] = canvas(512, 512);
-  g.fillStyle = '#3b2c27';
-  g.fillRect(0, 0, 512, 512);
+/** Pale green carpet like the show's living room. */
+export function carpetTexture() {
+  const [c, g] = canvas(256, 256);
+  g.fillStyle = '#a9c48a';
+  g.fillRect(0, 0, 256, 256);
   const r = rng(3);
-  for (let y = 0; y < 512; y += 64) {
-    g.fillStyle = `rgba(255,255,255,${0.02 + r() * 0.03})`;
-    g.fillRect(0, y, 512, 60);
-    g.fillStyle = 'rgba(0,0,0,0.45)';
-    g.fillRect(0, y + 60, 512, 4);
-    const cut = r() * 512;
-    g.fillRect(cut, y, 3, 64);
+  for (let i = 0; i < 5000; i++) {
+    g.fillStyle = `rgba(${r() > 0.5 ? '255,255,240' : '60,90,40'},${0.05 + r() * 0.06})`;
+    g.fillRect(r() * 256, r() * 256, 1.5, 1.5);
   }
-  return toTexture(c, [8, 8]);
+  return toTexture(c, [10, 10]);
+}
+
+/** The framed drawing on the wall: a quick pencil sketch of a bird in a top hat. */
+export function pictureTexture() {
+  const [c, g] = canvas(320, 400);
+  g.fillStyle = '#fbfaf4';
+  g.fillRect(0, 0, 320, 400);
+  g.strokeStyle = '#3a3a46';
+  g.lineWidth = 4;
+  g.lineCap = 'round';
+  g.lineJoin = 'round';
+  // top hat
+  g.strokeRect(122, 70, 76, 70);
+  g.beginPath();
+  g.moveTo(96, 140);
+  g.lineTo(224, 140);
+  g.stroke();
+  // round head and big eyes
+  g.beginPath();
+  g.ellipse(160, 200, 62, 56, 0, 0, Math.PI * 2);
+  g.stroke();
+  g.beginPath();
+  g.arc(140, 190, 12, 0, Math.PI * 2);
+  g.arc(184, 190, 12, 0, Math.PI * 2);
+  g.stroke();
+  g.fillStyle = '#3a3a46';
+  g.beginPath();
+  g.arc(143, 192, 4, 0, Math.PI * 2);
+  g.arc(187, 192, 4, 0, Math.PI * 2);
+  g.fill();
+  // beak and a big moustache-like smile
+  g.beginPath();
+  g.moveTo(160, 205);
+  g.lineTo(150, 232);
+  g.lineTo(172, 232);
+  g.closePath();
+  g.stroke();
+  // body, lollipop
+  g.beginPath();
+  g.moveTo(130, 252);
+  g.quadraticCurveTo(160, 360, 190, 252);
+  g.moveTo(205, 270);
+  g.lineTo(245, 230);
+  g.stroke();
+  g.beginPath();
+  g.arc(252, 222, 14, 0, Math.PI * 2);
+  g.stroke();
+  g.font = '22px "Chewy", sans-serif';
+  g.fillText('E.O.', 250, 380);
+  return toTexture(c);
 }
 
 /** Front (label side) of a cassette: black plastic with the coloured label and hand-lettered title. */

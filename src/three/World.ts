@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { OutlineEffect } from 'three/examples/jsm/effects/OutlineEffect.js';
 import { ARM, CAMERA, LEFT_STACK_COUNT, TAPE, TV, tapeHome, type StackId } from '../config/layout';
 import { TAPES, type Tape } from '../data/tapes';
 import { buildLights, buildRoom } from './buildRoom';
@@ -8,6 +9,7 @@ import { buildTV, type TVObject } from './buildTV';
 import { buildTapeMesh } from './buildTape';
 import { MordecaiArm } from './MordecaiArm';
 import { loadFonts } from './textures';
+import { PALETTE } from './toon';
 
 export type TapeState = 'home' | 'held' | 'loose';
 
@@ -15,7 +17,7 @@ export type TapeState = 'home' | 'held' | 'loose';
 export interface TapeObject {
   tape: Tape;
   mesh: THREE.Mesh;
-  front: THREE.MeshStandardMaterial;
+  front: THREE.MeshToonMaterial;
   stack: StackId;
   slot: number;
   home: THREE.Vector3;
@@ -40,6 +42,8 @@ export type CameraMode = 'idle' | 'tv' | 'free';
  */
 export class World {
   readonly renderer: THREE.WebGLRenderer;
+  /** draws the dark cartoon contour around every object */
+  private readonly outline: OutlineEffect;
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(CAMERA.fov, 1, 0.05, 40);
   /** the camera rig GSAP animates */
@@ -68,11 +72,12 @@ export class World {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.05;
+    this.renderer.toneMapping = THREE.NeutralToneMapping;
+    this.renderer.toneMappingExposure = 1.0;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.scene.background = new THREE.Color('#1a1426');
+    this.scene.background = new THREE.Color(PALETTE.wall);
+    this.outline = new OutlineEffect(this.renderer, { defaultThickness: 0.0042, defaultColor: PALETTE.outline, defaultAlpha: 1 });
   }
 
   async build() {
@@ -104,6 +109,7 @@ export class World {
     this.arms = { left: new MordecaiArm('left'), right: new MordecaiArm('right') };
     this.scene.add(this.arms.left.root, this.arms.right.root);
 
+    this.camera.aspect = 16 / 9; // sensible default until the canvas has a size
     this.resize();
     const idle = this.idlePose();
     this.camPos.copy(idle.pos);
@@ -245,6 +251,7 @@ export class World {
   resize() {
     const w = this.canvas.clientWidth || window.innerWidth;
     const h = this.canvas.clientHeight || window.innerHeight;
+    if (!w || !h) return; // hidden / not laid out yet: keep the last good size
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.fov = this.portrait ? CAMERA.portraitFov : CAMERA.fov;
@@ -279,7 +286,7 @@ export class World {
     this.tv.light.intensity = 0.9 * b * (0.92 + Math.random() * 0.08);
     this.arms.left.update();
     this.arms.right.update();
-    this.renderer.render(this.scene, this.camera);
+    this.outline.render(this.scene, this.camera);
   }
 
   private loop = () => {

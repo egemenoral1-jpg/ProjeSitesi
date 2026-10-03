@@ -1,6 +1,8 @@
 # Scene objects and how to replace them
 
-The room is real 3D (three.js). Every object is built in code by one builder, and every texture is drawn on a
+The room is real 3D (three.js) drawn in a cartoon style: cel shading (`MeshToonMaterial`, three light bands,
+see `src/three/toon.ts`) plus a dark contour around every object (`OutlineEffect`), with the colours of the
+Regular Show living room (`PALETTE`). Every object is built in code by one builder, and every texture is drawn on a
 canvas, so the site needs no image or model files. To use real artwork later, replace one builder; the animation
 code only talks to the objects below through their public fields.
 
@@ -9,13 +11,13 @@ Units are metres: +x right, +y up, +z toward the viewer. All positions/sizes liv
 
 | Object | Builder | Notes for a replacement model |
 |--------|---------|-------------------------------|
-| Room: wall, grey top strip, rail, skirting, floor, wooden table | `src/three/buildRoom.ts` (`buildRoom`) | table top surface must stay at `TABLE.topY` (0.75) |
-| Lights: hemisphere, warm key light with soft shadows, cool fill | `src/three/buildRoom.ts` (`buildLights`) | the TV adds its own flickering point light |
+| Living room: cream walls, green carpet, yellow staircase with balusters, framed drawing, floor lamp, wooden TV cabinet | `src/three/buildRoom.ts` (`buildRoom`) | cabinet top must stay at `TABLE.topY` (0.75); staircase size in `STAIRS` |
+| Lights: bright hemisphere, warm key light with shadows, cool fill, lamp glow | `src/three/buildRoom.ts` (`buildLights`) | the TV adds its own flickering point light |
 | CRT TV with built-in VCR | `src/three/buildTV.ts` | front face at `TV.frontZ`; screen centre/size `TV.screen`; slot centre `TV.slot`. Keep a plane for the picture that uses `screen.texture` |
 | Picture on the CRT (snow, black, noise, glitch, tracking, collapse) | `src/three/ScreenTexture.ts` | canvas texture, phases are driven by `tvAnimations.ts` |
 | VHS cassette | `src/three/buildTape.ts` | box `TAPE` = 0.27 x 0.052 x 0.155, label faces +z. Label and top textures come from `textures.ts` |
 | Mordecai's arm and hand | `src/three/MordecaiArm.ts` | see below |
-| Canvas textures: wallpaper, wood, floor, tape label, tape top | `src/three/textures.ts` | swap any of them for `new THREE.TextureLoader().load(url)` |
+| Canvas textures: wall paint, wood, carpet, drawing, tape label, tape top | `src/three/textures.ts` | swap any of them for `new THREE.TextureLoader().load(url)` |
 
 ## Mordecai's arm
 
@@ -27,8 +29,8 @@ Units are metres: +x right, +y up, +z toward the viewer. All positions/sizes liv
 - `curl` - 0 open hand ... 1 fist (each finger has three joints, the thumb two)
 
 The shoulder is placed just outside the bottom corner of the view for every sequence (`World.prepareArm`), and the
-arm is lengthened if a target is far (portrait phones). Two white bands sit near the wrist, the fingers are long
-and pointed like feathers, like Mordecai's.
+arm is lengthened if a target is far (portrait phones). Like Mordecai in the show it is light blue with two white
+stripes near the wrist, and the hand has long, flat, pointed fingers like feather tips (drawn 1.3x life size).
 
 To use a rigged hand model (GLB) instead: load it once, add it under `hand` in place of `buildHand`, and map
 `curl` to the finger bones in `update()`. Nothing else changes.
