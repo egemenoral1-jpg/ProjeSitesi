@@ -30,7 +30,7 @@ Units are metres: +x right, +y up, +z toward the viewer. All positions/sizes liv
 
 The shoulder is placed just outside the bottom corner of the view for every sequence (`World.prepareArm`), and the
 arm is lengthened if a target is far (portrait phones). Like Mordecai in the show it is light blue with two white
-stripes near the wrist, and the hand has long, flat, pointed fingers like feather tips (drawn 1.3x life size).
+stripes near the wrist, and the hand has soft, rounded fingers with a fine contour (drawn 1.3x life size).
 
 To use a rigged hand model (GLB) instead: load it once, add it under `hand` in place of `buildHand`, and map
 `curl` to the finger bones in `update()`. Nothing else changes.
@@ -53,7 +53,7 @@ audio files:
 The show's own theme is copyrighted, so it is not included. To use a music file you have the rights to, put it in
 `public/assets/audio/` and set `ASSETS.audio.musicFile` in `src/config/assets.ts`; it replaces the built-in tune.
 
-## The drawing on the wall
+## The portrait on the wall
 
-`pictureTexture()` in `src/three/textures.ts` draws a pencil sketch of Pops (top hat, round head, curly moustache,
-bow tie, lollipop) with "Jolly good show!" written on it.
+`pictureTexture()` in `src/three/textures.ts` paints Pops in full colour in the show's flat, outlined style: big
+round head, top hat, curly moustache, rosy cheeks, tuxedo with a red bow tie and a swirly lollipop.

@@ -56,7 +56,8 @@ export class MordecaiArm {
     this.sign = side === 'right' ? 1 : -1;
     // flat cartoon colours, outlined by the OutlineEffect like the show's drawings
     const blue = toon(PALETTE.mordecai);
-    const finger = thinOutline(toon(PALETTE.mordecai), 0.003);
+    // fingers get a fine contour; a thick one would swallow the thin tips and turn them black
+    const finger = thinOutline(toon(PALETTE.mordecai), 0.0013);
     const white = toon(PALETTE.white);
     const r = ARM.radius;
 
@@ -88,8 +89,8 @@ export class MordecaiArm {
 
   /**
    * Hand in local space: fingers along +y, palm facing -z, knuckles +z.
-   * Mordecai's hand: a small rounded palm and long, flat, pointed fingers like
-   * feather tips (see the reference frame from the show).
+   * Mordecai's hand: a rounded palm and soft, rounded, slightly flat fingers
+   * (see the reference frames from the show).
    */
   private buildHand(blue: THREE.Material, fingerMat: THREE.Material) {
     const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 20), blue);
@@ -102,8 +103,8 @@ export class MordecaiArm {
     const scale = [0.88, 1, 0.96, 0.82];
     fingerX.forEach((fx, i) => {
       const s = scale[i];
-      const lens = [0.03 * s, 0.026 * s, 0.05 * s];
-      const rads = [0.0115, 0.01, 0.0095];
+      const lens = [0.03 * s, 0.026 * s, 0.024 * s];
+      const rads = [0.0125, 0.0118, 0.011];
       const joints: THREE.Group[] = [];
       let parent: THREE.Object3D = this.hand;
       lens.forEach((len, j) => {
@@ -114,11 +115,10 @@ export class MordecaiArm {
         } else {
           joint.position.y = lens[j - 1];
         }
-        // the last segment is a long flat point, like the tip of a feather
-        const seg =
-          j < 2 ? new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 6, 12), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(rads[j], len, 16), fingerMat);
+        // rounded segments; the tip is just a shorter capsule
+        const seg = new THREE.Mesh(new THREE.CapsuleGeometry(rads[j], len, 8, 16), fingerMat);
         seg.position.y = len / 2;
-        seg.scale.z = 0.62;
+        seg.scale.z = 0.8;
         joint.add(seg);
         parent.add(joint);
         parent = joint;
@@ -138,9 +138,9 @@ export class MordecaiArm {
       } else {
         joint.position.y = 0.032;
       }
-      const seg = j === 0 ? new THREE.Mesh(new THREE.CapsuleGeometry(0.0125, len, 6, 12), fingerMat) : new THREE.Mesh(new THREE.ConeGeometry(0.011, len * 1.4, 14), fingerMat);
-      seg.position.y = j === 0 ? len / 2 : (len * 1.4) / 2;
-      seg.scale.z = 0.7;
+      const seg = new THREE.Mesh(new THREE.CapsuleGeometry(j === 0 ? 0.0135 : 0.0125, len, 8, 16), fingerMat);
+      seg.position.y = len / 2;
+      seg.scale.z = 0.85;
       joint.add(seg);
       parent.add(joint);
       parent = joint;

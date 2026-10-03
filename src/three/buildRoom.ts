@@ -116,15 +116,15 @@ function buildStairs() {
   return g;
 }
 
-/** Framed pencil drawing on the wall. */
+/** Framed portrait of Pops on the wall. */
 function buildPicture() {
   const g = new THREE.Group();
-  const frame = mesh(new RoundedBoxGeometry(0.42, 0.52, 0.035, 2, 0.01), toon(PALETTE.frame), true);
+  const frame = mesh(new RoundedBoxGeometry(0.52, 0.64, 0.035, 2, 0.012), toon(PALETTE.frame), true);
   g.add(frame);
-  const paper = mesh(new THREE.PlaneGeometry(0.34, 0.43), noOutline(toon('#ffffff', { map: pictureTexture() })), false);
+  const paper = mesh(new THREE.PlaneGeometry(0.44, 0.55), noOutline(toon('#ffffff', { map: pictureTexture() })), false);
   paper.position.z = 0.019;
   g.add(paper);
-  g.position.set(-1.1, 1.5, WALL_Z + 0.02);
+  g.position.set(-1.1, 1.52, WALL_Z + 0.02);
   return g;
 }
 
