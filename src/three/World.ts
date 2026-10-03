@@ -78,7 +78,7 @@ export class World {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.scene.background = new THREE.Color(PALETTE.wall);
-    this.outline = new OutlineEffect(this.renderer, { defaultThickness: 0.0055, defaultColor: PALETTE.outline, defaultAlpha: 1 });
+    this.outline = new OutlineEffect(this.renderer, { defaultThickness: 0.009, defaultColor: PALETTE.outline, defaultAlpha: 1 });
   }
 
   async build() {

@@ -15,7 +15,7 @@ export function setOutlineAspect(a: number) {
 }
 
 /** thickness: fraction of the screen height (0.01 is about 3.5 px on a 720 px screen). */
-export function hullMaterial(thickness: number, color: THREE.ColorRepresentation = '#17151d') {
+export function hullMaterial(thickness: number, color: THREE.ColorRepresentation = '#000000') {
   const m = new THREE.ShaderMaterial({
     uniforms: {
       thickness: { value: thickness },

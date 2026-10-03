@@ -88,7 +88,7 @@ export class MordecaiArm {
       }
     });
     // black contour: a bit finer on the fingers so the pointed tips stay crisp
-    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.0085 : 0.011));
+    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.016 : 0.022));
     this.root.visible = false;
   }
 

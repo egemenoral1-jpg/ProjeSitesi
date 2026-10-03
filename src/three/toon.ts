@@ -48,5 +48,5 @@ export const PALETTE = {
   mordecai: '#6faaf0',
   mordecaiDark: '#4d8ad8',
   white: '#fbfbf7',
-  outline: [0.1, 0.09, 0.14] as [number, number, number],
+  outline: [0, 0, 0] as [number, number, number],
 };
