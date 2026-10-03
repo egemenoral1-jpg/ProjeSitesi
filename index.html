@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Egemen Oral · Proje Kasetleri</title>
+<meta name="description" content="Egemen Oral'ın projeleri: bir kaset seç, Mordecai televizyona taksın.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <h1>PROJE KASETLERİ</h1>
+  <p>Bir kaset seç — Mordecai televizyona taksın.</p>
+</header>
+
+<main class="room">
+  <div class="stage" id="stage">
+
+    <!-- TELEVİZYON -->
+    <div class="tv">
+      <div class="tv-top">
+        <div class="screen-wrap">
+          <div class="screen" id="screen" data-state="static">
+            <canvas id="noise" width="160" height="120"></canvas>
+            <div class="hint" id="hint"><b>KASET YOK</b><span>Aşağıdan bir kaset seç ↓</span></div>
+            <div class="osd" id="osd"><span>▶ PLAY</span><i></i></div>
+            <div class="content" id="content" tabindex="-1"></div>
+            <div class="scan"></div>
+            <div class="glass"></div>
+          </div>
+        </div>
+        <div class="tv-side" aria-hidden="true">
+          <div class="knob"></div><div class="knob k2"></div>
+          <div class="keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="grill"></div>
+          <div class="led" id="led"></div>
+        </div>
+      </div>
+      <div class="tv-strip">
+        <span class="brand">MORDECAI·VİZYON</span>
+        <div class="lip" id="lip"></div>
+        <button class="eject" id="eject" type="button" disabled title="Kaseti çıkar">⏏ ÇIKAR</button>
+      </div>
+    </div>
+
+    <!-- DOLAP + KASETLER -->
+    <div class="cabinet">
+      <div class="plank"></div>
+      <div class="body"><div class="shelf" id="shelf"></div></div>
+      <i class="cleg l1"></i><i class="cleg l2"></i>
+    </div>
+    <div class="floor"></div>
+
+    <div id="tapes"></div>
+
+    <!-- MORDECAI -->
+    <div id="mordecai">
+      <div id="mJump"><div id="mInner">
+        <svg viewBox="0 0 144 170" aria-hidden="true">
+          <g transform="translate(24 0)">
+            <!-- kuyruk -->
+            <g class="tail">
+              <path d="M34 112 C14 112 -6 122 -22 146 C-8 144 2 146 10 140 C6 152 16 160 30 152 C22 144 28 134 38 130 Z" fill="#2f6fb5"/>
+              <path d="M32 120 C16 124 4 132 -6 146" stroke="#1f4f8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </g>
+            <!-- bacaklar -->
+            <g class="leg legL"><rect x="38" y="124" width="5" height="32" rx="2.5" fill="#2a5f9e"/><ellipse cx="45" cy="158" rx="10" ry="4" fill="#16365e"/></g>
+            <g class="leg legR"><rect x="57" y="124" width="5" height="32" rx="2.5" fill="#2a5f9e"/><ellipse cx="64" cy="158" rx="10" ry="4" fill="#16365e"/></g>
+            <g class="bob">
+              <!-- arka kol -->
+              <rect x="30" y="90" width="8" height="30" rx="4" fill="#3a85cc" transform="rotate(10 34 92)"/>
+              <!-- gövde -->
+              <ellipse cx="50" cy="106" rx="23" ry="28" fill="#4a9be0"/>
+              <ellipse cx="55" cy="112" rx="13" ry="19" fill="#d6eafc"/>
+              <!-- baş -->
+              <path d="M26 38 L18 12 L38 28 L44 0 L56 24 L70 6 L70 32 Z" fill="#2f7fd0"/>
+              <ellipse cx="52" cy="50" rx="30" ry="27" fill="#4a9be0"/>
+              <ellipse cx="64" cy="55" rx="21" ry="18" fill="#f4f9ff"/>
+              <g class="eyes">
+                <circle cx="57" cy="49" r="8" fill="#fff" stroke="#16243d" stroke-width="1.6"/>
+                <circle cx="75" cy="49" r="8" fill="#fff" stroke="#16243d" stroke-width="1.6"/>
+                <circle cx="60" cy="50" r="3.3" fill="#111"/>
+                <circle cx="78" cy="50" r="3.3" fill="#111"/>
+              </g>
+              <path d="M47 40 L64 44 M68 44 L86 39" stroke="#16243d" stroke-width="3" stroke-linecap="round"/>
+              <path d="M80 57 L110 63 L80 72 Z" fill="#17171c"/>
+              <path d="M80 64 L104 64" stroke="#3a3a44" stroke-width="1.2"/>
+              <!-- ön kol -->
+              <g id="arm">
+                <rect x="46" y="88" width="8" height="34" rx="4" fill="#4a9be0"/>
+                <circle id="hand" cx="50" cy="124" r="6.5" fill="#f4f9ff" stroke="#16243d" stroke-width="1.2"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <a href="https://github.com/egemenoral1-jpg" target="_blank" rel="noopener">github.com/egemenoral1-jpg</a>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
