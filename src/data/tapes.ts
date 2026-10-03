@@ -22,9 +22,9 @@ const projectTapes: Tape[] = projects.map((p) => ({
 }));
 
 const specialTapes: Tape[] = [
-  { id: 'about', kind: 'about', title: 'About Me', label: 'ABOUT ME', color: '#3fa7d6' },
-  { id: 'skills', kind: 'skills', title: 'Skills', label: 'SKILLS', color: '#7bd84a' },
-  { id: 'contact', kind: 'contact', title: 'Contact', label: 'CONTACT', color: '#ff8a3d' },
+  { id: 'about', kind: 'about', title: 'About Me', label: 'ABOUT ME', color: '#3b3f9a' },
+  { id: 'skills', kind: 'skills', title: 'Skills', label: 'SKILLS', color: '#4f7f1a' },
+  { id: 'contact', kind: 'contact', title: 'Contact', label: 'CONTACT', color: '#b5531c' },
 ];
 
 /** Shelf order: projects first, then the special tapes. */

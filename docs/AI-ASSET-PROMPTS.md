@@ -4,65 +4,59 @@ Generate every asset with the **same model, the same seed family and the shared 
 scene stays consistent. Sizes and anchors for every file are in [ASSETS.md](ASSETS.md). Generate at 2x, remove
 the background for transparent items, crop exactly to the aspect ratio and export WebP.
 
-> These prompts describe a scene inspired by a late-night cartoon living room with a blue-jay character's arms.
-> If you use a licensed character, make sure you have the right to use it on a public site.
+> The look is inspired by Regular Show. If you use the actual character, make sure you have the right to use it
+> on a public site.
 
 ## Shared style block (paste at the start of every prompt)
 
 ```
-2D flat cartoon illustration in the style of a late-night animated TV show, thick clean dark outlines of constant
-weight, simple cel shading with one soft shadow tone, slightly muted palette: dark brown, muted purple, deep blue,
-warm tan wood, warm yellow-orange accents, CRT blue-green light. Straight-on front view at table height, no
-perspective tilt. Evening living room, cozy and nostalgic. Main light: blue-green glow from an old CRT television in
-the centre, weak warm lamp on the right. Not horror, not neon, not cyberpunk, no text, no watermark.
+Flat 2D cartoon in the style of Regular Show, thick uniform dark outlines (#16161c), flat colours with at most one
+simple shadow tone, no gradients except soft vignettes, straight-on front view at table height, no perspective
+tilt, clean vector look, no text, no watermark.
 ```
 
-Negative prompt (if supported): `3d render, photo, realistic, neon, cyberpunk, horror, text, logo, watermark, blurry outlines, perspective distortion`
+Negative prompt (if supported): `3d render, photo, realistic, painterly, soft airbrush, neon, cyberpunk, text, logo, watermark, perspective distortion`
 
 ## Room
 
-**Background (3200x1800, opaque)** Plain flat fill: upper half light warm grey (#8f8b96), lower half dusty blue (#3a4d63). No detail.
+**Background (3200x1800, opaque)** Plain flat fill: upper half light grey (#a3a3aa), lower half grey-blue (#7a7d88).
 
-**Room shell (2100x960, opaque)** `<style block>` Empty wall and table seen straight on, made only of horizontal bands:
-light grey upper wall in the top 25%, muted purple wallpaper with faint vertical stripes down to 69%, a tan wooden
-table top from 69% to 73% with a thin highlight on its back edge, the darker front edge of the table to 79%, and a
-heavily blurred floor below it (soft green, blue and violet blobs, out of focus). Nothing standing on the table.
-
-## On the table (transparent background, same front camera)
-
-**Plant (340x600)** `<style block>` Leafy houseplant in a terracotta pot, front view.
-
-**Lamp (280x840)** `<style block>` Old table/floor lamp with a warm yellow fabric shade lit from inside, thin dark stand, round base.
-
-**Soda cans (240x140)** `<style block>` Two standing soda cans (red, blue) and one tipped-over can.
+**Room shell (2100x960, opaque)** `<style block>` Empty wall and table made of horizontal bands only: a light grey
+strip at the top 16%, then a muted purple wall (slightly darker towards the edges) down to 69%, a tan wooden table top
+(69%-74%) with a light highlight on its back edge and dark outline lines, the darker front edge of the table to 79%,
+and an out-of-focus grey floor below. Nothing standing on the table.
 
 ## Television
 
-**CRT TV (1280x1120, transparent corners)** `<style block>` Old dark grey CRT television with thick rounded plastic
-body, front view. A big dark rounded-rectangle screen well on the left 80% (plain black, no reflection), a column on
-the right with a small display window, a 3x3+1 button pad and a speaker grille. Under the screen a wide black VCR
-panel with one long dark horizontal cassette slot centred under the screen and small grilles left and right of it.
-Two short feet at the bottom. Subtle scuffs.
+**CRT TV (1520x1160, transparent corners)** `<style block>` Old black CRT television with a VCR built into its base,
+front view. Large rounded screen with a grey bezel taking the left 78% (screen area plain black), on the right a small
+display window, a 3x4 grey number keypad and a column of horizontal speaker slats, a small grey button below. The base
+under the screen: three round grey buttons and a little grille on each side, and a long dark horizontal cassette slot
+in the middle.
 
 ## Cassette
 
-**VHS spine (540x92, transparent)** `<style block>` A single VHS cassette lying flat, seen exactly from its
-spine (long thin side facing the viewer): black plastic, a wide blank cream label panel along most of the length,
-small notches at both ends, rounded corners.
+**VHS tape (540x200, transparent)** `<style block>` A single black VHS cassette lying flat, seen from the front and
+slightly above: the top face (upper 44%) shows two rounded reel windows with white reels and a white paper label in
+the middle; the front face (lower 56%) is black with a large blank rectangular label area (leave it empty, the coloured
+label and title are added in code).
 
 ## Mordecai's arms
 
 Character block, reused below:
 
 ```
-Arm of a tall cartoon blue jay (Mordecai-like): mid-blue feathers with a slightly darker blue edge and a lighter
-highlight stripe, white cartoon glove-like hands with four fingers and dark outlines.
+Mordecai, the blue jay from Regular Show: bright mid-blue (#4aa3e6), thick dark outline, slender arm. His hand is the
+same blue, made of three or four long pointed feather-like fingers plus a thumb, with darker blue line details. Near
+the wrist the forearm has two white bands.
 ```
 
-**Sleeve (192x2000, transparent)** `<style block>` `<character block>` A single long blue arm hanging perfectly straight
-down, shoulder end at the top edge, wrist end at the bottom edge, no hand, slightly tapered, perfectly vertical and
-symmetrical, plain enough to be stretched vertically. Make a second, mirrored copy for the other side.
+**Sleeve (200x2000, transparent)** `<style block>` `<character block>` Only the plain blue part of the arm (no hand,
+no white bands), hanging perfectly straight down, shoulder end at the top edge, wrist end at the bottom edge, dark
+outline along both long edges, no outline across the ends, plain enough to be stretched vertically. Mirror it for the
+other side.
 
-**Hand (240x240, transparent)** `<style block>` `<character block>` One white cartoon hand seen from the back,
-fingers pointing straight up, half open as if about to grab a cassette, thumb to the side, centred in the frame.
-Make a mirrored copy for the other hand.
+**Hand (280x400, transparent)** `<style block>` `<character block>` The hand seen from the back with the fingers
+pointing straight up and slightly spread, as if pushing a tape. The palm is centred around 40% of the height, the
+wrist and forearm continue straight down to the bottom edge with the two white bands across it; the forearm is about
+60% of the image width wide and has no outline across its bottom end. Mirror it for the other hand.

@@ -8,7 +8,6 @@ import { useSceneScale } from '../../hooks/useSceneScale';
 import { CassetteShelf } from '../cassette/CassetteShelf';
 import { Mordecai } from '../character/Mordecai';
 import { CRTTV } from '../television/CRTTV';
-import { Furniture, Props } from './Furniture';
 import { Lighting } from './Lighting';
 import { ParallaxLayer } from './ParallaxLayer';
 import { Background, Room } from './Room';
@@ -22,7 +21,7 @@ interface SceneProps {
 
 /**
  * Layer stack (bottom -> top):
- *  background, room (wall + table), furniture + tape stacks, props, TV, Mordecai's arms, lighting.
+ *  background, room (wall + table), tape stacks, TV, Mordecai's arms, lighting.
  * Each layer is an independent 2D plane with its own parallax depth.
  * The `.camera` wrapper is the 2D camera: GSAP moves/zooms it with a single transform.
  */
@@ -49,11 +48,7 @@ export function Scene({ selectedId, busy, onSelect, onBack }: SceneProps) {
             <Room />
           </ParallaxLayer>
           <ParallaxLayer id="furniture">
-            <Furniture />
             <CassetteShelf selectedId={selectedId} disabled={busy} onSelect={onSelect} />
-          </ParallaxLayer>
-          <ParallaxLayer id="props">
-            <Props />
           </ParallaxLayer>
           <ParallaxLayer id="tv">
             <CRTTV onBack={onBack} />

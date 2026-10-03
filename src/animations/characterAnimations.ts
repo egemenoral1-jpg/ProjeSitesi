@@ -44,8 +44,8 @@ function applyArm(side: Side) {
   const { arm, hand } = getRig().arms[side];
   const p = state[side];
   const h = handAt(side, p);
-  // the hand art points its fingers up; lean it along the sleeve
-  const tilt = (p.angle > 0 ? p.angle - 180 : p.angle + 180) * 0.8;
+  // the hand art points its fingers up; turn it to continue the sleeve (wrist bands line up with the arm)
+  const tilt = p.angle > 0 ? p.angle - 180 : p.angle + 180;
   gsap.set(arm, { rotation: p.angle, scaleY: p.len / ARMS.len });
   gsap.set(hand, { x: h.x, y: h.y });
   gsap.set(hand.querySelector('.m-hand-img'), { rotation: tilt });

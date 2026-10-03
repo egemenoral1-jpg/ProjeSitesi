@@ -1,40 +1,40 @@
-/* Any tape graphic (stack, hand, VCR slot) */
+/* Any tape graphic (stack, hand, VCR slot). The box is the front face, the art reaches above it. */
 .tape { position: absolute; }
-.tape-art { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.tape-art { position: absolute; left: 0; width: 100%; max-width: none; pointer-events: none; }
 .tape-label {
-  position: absolute; left: 16px; right: 16px; top: 7px; bottom: 7px; background: var(--c, #3fbf5a);
-  border-radius: 3px; overflow: hidden; display: flex; align-items: center; justify-content: center; pointer-events: none;
-  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .3), inset 0 4px 0 rgba(255, 255, 255, .25);
+  position: absolute; left: 10px; right: 10px; top: 6px; bottom: 9px; background: var(--c, #6b1f5c);
+  border: 3px solid #16161c; border-radius: 4px; overflow: hidden; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
 }
 .tape-label b {
-  font: 400 19px/1 var(--font-title); letter-spacing: .03em; color: #fff; white-space: nowrap;
-  -webkit-text-stroke: 4px #14141a; paint-order: stroke fill;
+  font: 400 30px/1 'Chewy', var(--font-title); letter-spacing: .04em; color: #fff; white-space: nowrap;
+  -webkit-text-stroke: 5px #16161c; paint-order: stroke fill;
+  text-shadow: 2px 3px 0 #16161c;
 }
 
 /* Cassettes in the stacks */
 .cassette {
-  padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto;
+  padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; overflow: visible;
   transition: transform .22s cubic-bezier(.2, .9, .3, 1.4), filter .22s;
-  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, .35));
 }
 .cassette.stack-left:hover:not(.is-disabled), .cassette.stack-left:focus-visible:not(.is-disabled), .cassette.stack-left.show-tip:not(.is-disabled) {
-  transform: translateX(-16px) rotate(-1.5deg) scale(1.04);
+  transform: translateX(-18px) rotate(-1.5deg);
 }
 .cassette.stack-right:hover:not(.is-disabled), .cassette.stack-right:focus-visible:not(.is-disabled), .cassette.stack-right.show-tip:not(.is-disabled) {
-  transform: translateX(16px) rotate(1.5deg) scale(1.04);
+  transform: translateX(18px) rotate(1.5deg);
 }
 .cassette:hover:not(.is-disabled), .cassette:focus-visible:not(.is-disabled), .cassette.show-tip:not(.is-disabled) {
-  filter: drop-shadow(0 0 12px var(--c)) brightness(1.15);
+  filter: drop-shadow(0 0 10px rgba(255, 245, 200, .75)) brightness(1.12);
   outline: none; z-index: 5;
 }
-.cassette.is-selected { filter: drop-shadow(0 0 16px var(--c)) brightness(1.2); }
+.cassette.is-selected { filter: drop-shadow(0 0 14px rgba(255, 245, 200, .9)) brightness(1.15); }
 .cassette.is-disabled { cursor: default; }
 .cassette.is-picked { visibility: hidden; }
 
 .cassette-tip {
-  position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translate(-50%, 6px);
-  background: #14101c; color: #fff4c8; border: 2px solid var(--c); border-radius: 4px;
-  padding: 4px 10px; font: 400 24px/1 var(--font-tv); letter-spacing: .06em; white-space: nowrap;
+  position: absolute; left: 50%; bottom: calc(100% + 52px); transform: translate(-50%, 6px);
+  background: #16161c; color: #fff; border: 3px solid var(--c); border-radius: 6px;
+  padding: 5px 12px; font: 400 26px/1 'Chewy', var(--font-tv); letter-spacing: .04em; white-space: nowrap;
   opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s;
 }
 .cassette:hover:not(.is-disabled) .cassette-tip, .cassette:focus-visible .cassette-tip, .cassette.show-tip:not(.is-disabled) .cassette-tip {

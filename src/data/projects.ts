@@ -32,7 +32,7 @@ export const projects: Project[] = [
       'Top 10 by revenue, IMDb rating, awards and votes',
     ],
     githubUrl: 'https://github.com/egemenoral1-jpg/Movie-Success-Analyzer',
-    color: '#f2b632',
+    color: '#6b1f5c',
   },
   {
     id: 'film-recommendation-system',
@@ -48,7 +48,7 @@ export const projects: Project[] = [
       '100K ratings, 943 users, 1,682 films',
     ],
     githubUrl: 'https://github.com/egemenoral1-jpg/film-oneri-sistemi',
-    color: '#d9534f',
+    color: '#a32b2b',
   },
   {
     id: 'ai-cv-matcher',
@@ -64,7 +64,7 @@ export const projects: Project[] = [
       'Dashboard, history and PDF report export',
     ],
     githubUrl: 'https://github.com/egemenoral1-jpg/proje',
-    color: '#4fb3a5',
+    color: '#1f7a3a',
   },
   {
     id: 'data-analysis-project',
@@ -80,6 +80,6 @@ export const projects: Project[] = [
       '20,640 rows, 8 numeric features',
     ],
     githubUrl: 'https://github.com/egemenoral1-jpg/ev-fiyat-tahmini',
-    color: '#8e7cc3',
+    color: '#1d5f8a',
   },
 ];

@@ -15,14 +15,14 @@ export function useSceneScale(sceneRef: RefObject<HTMLElement>) {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const portrait = vh > vw * 1.05;
-      const s = portrait ? Math.min(vw / 1320, vh / 760) : Math.min(vw / STAGE.w, vh / STAGE.h);
+      const s = portrait ? Math.min(vw / 1420, vh / 760) : Math.min(vw / STAGE.w, vh / STAGE.h);
       scale.current = s;
       const el = sceneRef.current;
       if (el) {
         el.style.transform = `translate(-50%, -50%) scale(${s})`;
         // On tall screens the area above the stage continues the upper wall, the area below the floor.
         const top = vh / 2 - (STAGE.h / 2) * s + 4;
-        (el.parentElement as HTMLElement).style.background = `linear-gradient(#8f8b96 ${top}px, #3a4d63 ${top}px)`;
+        (el.parentElement as HTMLElement).style.background = `linear-gradient(#a3a3aa ${top}px, #7a7d88 ${top}px)`;
       }
     };
     fit();

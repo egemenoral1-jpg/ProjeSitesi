@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import type { Tape } from '../data/tapes';
+import { labelFontSize } from '../utils/tapeLabel';
 
 export type Side = 'left' | 'right';
 
@@ -65,8 +66,11 @@ export const sideOf = (el: HTMLElement): Side => (el.dataset.stack === 'right' ?
 /** Write a tape's label/colour into any tape graphic (shelf copy, held copy, slot copy). */
 export function paintTape(el: HTMLElement, tape: Tape) {
   el.style.setProperty('--c', tape.color);
-  const label = el.querySelector('.tape-label b');
-  if (label) label.textContent = tape.label;
+  const label = el.querySelector<HTMLElement>('.tape-label b');
+  if (label) {
+    label.textContent = tape.label;
+    label.style.fontSize = `${labelFontSize(tape.label)}px`;
+  }
 }
 
 export const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));

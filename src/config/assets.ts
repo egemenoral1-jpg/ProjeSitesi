@@ -13,13 +13,6 @@ const a = (p: string) => `${base}assets/${p}`;
 export const ASSETS = {
   background: a('background/placeholder-background.svg'),
   room: a('room/placeholder-room.svg'),
-  furniture: {
-    plant: a('furniture/placeholder-plant.svg'),
-    lamp: a('furniture/placeholder-lamp.svg'),
-  },
-  props: {
-    cans: a('props/placeholder-cans.svg'),
-  },
   characters: {
     mordecai: {
       leftArm: a('characters/mordecai/placeholder-mordecai-left-arm.svg'),
@@ -29,7 +22,7 @@ export const ASSETS = {
     },
   },
   cassettes: {
-    spine: a('cassettes/placeholder-vhs-spine.svg'),
+    tape: a('cassettes/placeholder-vhs.svg'),
   },
   tv: {
     frame: a('tv/placeholder-tv.svg'),

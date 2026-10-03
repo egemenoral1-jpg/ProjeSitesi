@@ -1,7 +1,7 @@
 # Egemen's Room: an interactive 2D/2.5D cartoon portfolio
 
-There is no portfolio UI here. You are sitting in front of an old CRT television in a cozy cartoon living room,
-with VHS tapes stacked on both sides of it. **The tapes are the navigation** and **the TV is the content interface**.
+There is no portfolio UI here. You are sitting in front of an old CRT television showing static, in a flat
+Regular Show style shot (grey strip, purple wall, wooden table), with VHS tapes stacked on both sides of it. **The tapes are the navigation** and **the TV is the content interface**.
 Click a tape and Mordecai's arm reaches in from the bottom of the frame, grabs it, slides it out of the stack and
 pushes it into the VCR slot; the TV crackles into static, VHS noise and tracking, then plays the project.
 
@@ -46,7 +46,7 @@ The scene is a fixed 1600x900 "design stage" scaled to the window with one CSS t
 (`useSceneScale`). On portrait phones it crops to the playable strip (both tape stacks + TV) instead of turning into
 a normal mobile layout. Inside it, `.camera` wraps independent `ParallaxLayer`s:
 
-`background -> room -> furniture + tape stacks -> props -> TV -> Mordecai's arms -> lighting`
+`background -> room -> tape stacks -> TV -> Mordecai's arms -> lighting`
 
 Projects are stacked on the left of the TV, About / Skills / Contact on the right. Only Mordecai's arms are in the
 shot: the arms layer is above the TV so the hand can reach the slot. Layers move with GPU transforms only; the

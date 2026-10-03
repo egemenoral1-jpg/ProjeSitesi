@@ -13,13 +13,13 @@ export const TABLE_Y = 652;
 export const HORIZON_Y = 652;
 
 export const TV = {
-  x: 480,
-  y: 96,
-  w: 640,
-  h: 560,
-  screen: { x: 42, y: 38, w: 456, h: 342 },
+  x: 420,
+  y: 80,
+  w: 760,
+  h: 580,
+  screen: { x: 40, y: 34, w: 536, h: 402 },
   /** VCR slot centre and size, relative to the TV */
-  slot: { x: 270, y: 468, w: 340, h: 54 },
+  slot: { x: 380, y: 523, w: 360, h: 58 },
 } as const;
 
 export const TV_SLOT_ABS = { x: TV.x + TV.slot.x, y: TV.y + TV.slot.y } as const;
@@ -28,15 +28,19 @@ export const TV_SCREEN_ABS = {
   y: TV.y + TV.screen.y + TV.screen.h / 2,
 } as const;
 
-/** A cassette lying flat, seen from its spine (the label side). */
-export const TAPE = { w: 270, h: 46, gap: 3 } as const;
+/**
+ * A cassette lying flat, seen from the front with a bit of its top visible.
+ * `h` is the front face (the label side); the top face (`top` px) is drawn above it
+ * and is covered by the next tape in a stack.
+ */
+export const TAPE = { w: 270, h: 56, top: 44, gap: 0 } as const;
 /** How big the cassette looks once it is pushed into the slot (it moves away from the camera). */
 export const TAPE_IN_SLOT_SCALE = 0.9;
 
 export type StackId = 'left' | 'right';
 export const STACKS: Record<StackId, { x: number; baseY: number }> = {
-  left: { x: 300, baseY: TABLE_Y },
-  right: { x: 1300, baseY: TABLE_Y },
+  left: { x: 245, baseY: TABLE_Y },
+  right: { x: 1355, baseY: TABLE_Y },
 };
 
 /** Centre of the n-th tape (0 = bottom) in a stack. */
@@ -51,15 +55,16 @@ export function tapePosition(stack: StackId, slot: number) {
  */
 export const ARMS = {
   shoulders: {
-    left: { x: 120, y: 1260 },
-    right: { x: 1480, y: 1260 },
+    left: { x: 100, y: 1260 },
+    right: { x: 1500, y: 1260 },
   },
   len: 1000, // length of the arm image (max reach)
   min: 160,
-  w: 96,
-  hand: 120,
+  w: 100,
+  /** hand image size; its centre is the end of the sleeve and the gripping point */
+  hand: { w: 168, h: 240 },
   /** the hand grips the end of the tape: distance from tape centre to the hand centre */
-  grip: TAPE.w / 2 - 22,
+  grip: TAPE.w / 2 - 6,
 } as const;
 
 /** Mouse parallax amplitude (px) per layer. TV barely moves, foreground moves most. */

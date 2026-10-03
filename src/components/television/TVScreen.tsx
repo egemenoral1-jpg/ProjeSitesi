@@ -12,7 +12,7 @@ interface Props {
   onBack: () => void;
 }
 
-const NOISY: TVPhase[] = ['static', 'noise', 'glitch'];
+const NOISY: TVPhase[] = ['off', 'static', 'noise', 'glitch'];
 
 /** The glass of the CRT: everything the visitor reads is drawn in here. */
 export const TVScreen = memo(function TVScreen({ phase, tape, onBack }: Props) {

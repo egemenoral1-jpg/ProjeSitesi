@@ -1,6 +1,6 @@
 .tv { position: absolute; }
 .tv-window {
-  position: absolute; overflow: hidden; background: #000; border-radius: 42px / 34px;
+  position: absolute; overflow: hidden; background: #000; border-radius: 30px / 26px;
   box-shadow: inset 0 0 40px rgba(0, 0, 0, .9);
   pointer-events: none;
 }
@@ -15,16 +15,19 @@
   box-shadow: inset 0 0 30px rgba(0, 0, 0, .8);
 }
 .tv-led {
-  position: absolute; left: 594px; top: 494px; width: 11px; height: 11px; border-radius: 50%;
+  position: absolute; left: 708px; top: 426px; width: 10px; height: 10px; border-radius: 50%;
   background: #2a1010; transition: background .3s, box-shadow .3s;
 }
 .tv-led.on { background: #ff4545; box-shadow: 0 0 10px #ff4545; }
 
-.slot-tape { visibility: hidden; opacity: 0; filter: brightness(.9) drop-shadow(0 -3px 4px rgba(0, 0, 0, .6)); }
+.slot-tape { visibility: hidden; opacity: 0; }
+/* only the label side sticks out of the VCR */
+.slot-tape .tape-art { clip-path: inset(44% 0 0 0); }
 
 .vhs-noise { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; opacity: 0; }
 
 /* ---- playback phases ---- */
+.phase-off .vhs-noise { opacity: .85; filter: contrast(1.15) brightness(.95); }
 .phase-static .vhs-noise { opacity: 1; filter: contrast(1.4); }
 .phase-noise .vhs-noise { opacity: .6; filter: contrast(1.2) hue-rotate(160deg); }
 .phase-noise .tv-picture { background: #0a1c3a; animation: jitter .12s steps(2) infinite; }

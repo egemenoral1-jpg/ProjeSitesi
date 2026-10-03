@@ -4,39 +4,18 @@
 .layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; will-change: transform; }
 .abs { position: absolute; pointer-events: none; user-select: none; max-width: none; }
 
-/* ---- lighting: late evening, the CRT is the main source, plus a weak warm lamp ---- */
+/* ---- lighting: flat cartoon room, the CRT adds a soft glow ---- */
 .lighting { position: absolute; inset: 0; pointer-events: none; }
-.light { position: absolute; }
-/* darkens the room away from the TV so it reads as night */
-.shade {
-  left: -400px; top: -300px; width: 2400px; height: 1500px;
-  background: radial-gradient(closest-side at 50% 42%, transparent 25%, rgba(10, 6, 24, .38) 70%, rgba(6, 4, 14, .62));
-}
-.lamp {
-  left: 1040px; top: -60px; width: 960px; height: 820px; mix-blend-mode: screen;
-  background: radial-gradient(closest-side at 54% 40%, rgba(255, 170, 70, .28), rgba(255, 140, 50, .08) 55%, transparent);
-}
+.light { position: absolute; mix-blend-mode: screen; }
 .tv-glow {
-  left: 230px; top: -110px; width: 1140px; height: 840px; mix-blend-mode: screen;
-  background: radial-gradient(closest-side, rgba(90, 255, 200, .26), rgba(60, 170, 255, .10) 55%, transparent);
-  opacity: .3; transition: opacity .9s ease;
+  left: 160px; top: -140px; width: 1280px; height: 900px;
+  background: radial-gradient(closest-side, rgba(200, 220, 255, .16), rgba(120, 160, 255, .06) 55%, transparent);
+  transition: opacity .9s ease, filter .9s ease;
 }
 .tv-table {
-  left: 380px; top: 580px; width: 840px; height: 200px; mix-blend-mode: screen;
-  background: radial-gradient(closest-side, rgba(90, 230, 220, .25), transparent);
-  opacity: .2; transition: opacity .9s ease;
+  left: 360px; top: 590px; width: 880px; height: 160px;
+  background: radial-gradient(closest-side, rgba(200, 220, 255, .18), transparent);
+  transition: opacity .9s ease;
 }
-.scene[data-tv='on'] .tv-glow { opacity: 1; animation: tvFlicker 3.4s infinite; }
-.scene[data-tv='on'] .tv-table { opacity: .9; }
-@keyframes tvFlicker { 0%, 100% { filter: brightness(1); } 47% { filter: brightness(1); } 49% { filter: brightness(.82); } 52% { filter: brightness(1.08); } }
-
-.mote {
-  position: absolute; border-radius: 50%; background: rgba(255, 235, 200, .75); opacity: 0;
-  animation: float 18s linear infinite;
-}
-@keyframes float {
-  0% { transform: translate(0, 0); opacity: 0; }
-  15% { opacity: .5; }
-  85% { opacity: .35; }
-  100% { transform: translate(60px, -140px); opacity: 0; }
-}
+.scene[data-tv='on'] .tv-glow { filter: hue-rotate(-40deg) saturate(2.2); animation: tvFlicker 3.4s infinite; }
+@keyframes tvFlicker { 0%, 100% { opacity: 1; } 47% { opacity: 1; } 49% { opacity: .8; } 52% { opacity: 1; } }
