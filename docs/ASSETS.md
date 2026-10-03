@@ -32,6 +32,10 @@ The shoulder is placed just outside the bottom corner of the view for every sequ
 arm is lengthened if a target is far (portrait phones). Like Mordecai in the show it is light blue with two white
 stripes near the wrist, and the hand has spread, pointed feather-tip fingers, each outlined in black (drawn 1.3x life size).
 
+The arm is outlined by its own screen-space "inverted hull" (`src/three/outline.ts`) instead of the room-wide
+OutlineEffect: that effect makes lines very thin on objects close to the camera and leaves black spikes on pointed
+tips. The hull keeps a bold, constant ink line (thickness is a fraction of the screen height).
+
 To use a rigged hand model (GLB) instead: load it once, add it under `hand` in place of `buildHand`, and map
 `curl` to the finger bones in `update()`. Nothing else changes.
 

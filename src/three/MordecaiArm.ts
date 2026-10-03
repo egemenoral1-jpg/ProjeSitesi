@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { ARM, TAPE } from '../config/layout';
 import type { StackId } from '../config/layout';
-import { PALETTE, thinOutline, toon } from './toon';
+import { noOutline, PALETTE, toon } from './toon';
+import { addHulls } from './outline';
 
 export type GripMode = 'end' | 'front';
 
@@ -55,10 +56,12 @@ export class MordecaiArm {
   constructor(readonly side: StackId) {
     this.sign = side === 'right' ? 1 : -1;
     // flat cartoon colours, outlined by the OutlineEffect like the show's drawings
-    const blue = toon(PALETTE.mordecai);
-    // pointed fingers with clear black contour lines around and between them, like the show
-    const finger = thinOutline(toon(PALETTE.mordecai), 0.0036);
-    const white = toon(PALETTE.white);
+    // The arm draws its own bold, screen-space black ink lines (see outline.ts),
+    // so the room-wide OutlineEffect is switched off for it.
+    const blue = noOutline(toon(PALETTE.mordecai));
+    const finger = noOutline(toon(PALETTE.mordecai));
+    finger.userData.isFinger = true;
+    const white = noOutline(toon(PALETTE.white));
     const r = ARM.radius;
 
     // limbs are unit-length cylinders scaled along y
@@ -84,6 +87,8 @@ export class MordecaiArm {
         o.receiveShadow = true;
       }
     });
+    // black contour: a bit finer on the fingers so the pointed tips stay crisp
+    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.0085 : 0.011));
     this.root.visible = false;
   }
 

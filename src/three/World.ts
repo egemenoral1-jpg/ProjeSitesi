@@ -10,6 +10,7 @@ import { buildTapeMesh } from './buildTape';
 import { MordecaiArm } from './MordecaiArm';
 import { loadFonts } from './textures';
 import { PALETTE } from './toon';
+import { setOutlineAspect } from './outline';
 
 export type TapeState = 'home' | 'held' | 'loose';
 
@@ -77,7 +78,7 @@ export class World {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.scene.background = new THREE.Color(PALETTE.wall);
-    this.outline = new OutlineEffect(this.renderer, { defaultThickness: 0.0042, defaultColor: PALETTE.outline, defaultAlpha: 1 });
+    this.outline = new OutlineEffect(this.renderer, { defaultThickness: 0.0055, defaultColor: PALETTE.outline, defaultAlpha: 1 });
   }
 
   async build() {
@@ -254,6 +255,7 @@ export class World {
     if (!w || !h) return; // hidden / not laid out yet: keep the last good size
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
+    setOutlineAspect(this.camera.aspect);
     this.camera.fov = this.portrait ? CAMERA.portraitFov : CAMERA.fov;
     this.camera.updateProjectionMatrix();
     const pose = this.cameraMode === 'idle' ? this.idlePose() : this.cameraMode === 'tv' ? this.tvPose() : null;
