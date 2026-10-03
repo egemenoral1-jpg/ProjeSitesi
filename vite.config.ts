@@ -5,5 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: './',
   plugins: [react()],
-  build: { chunkSizeWarningLimit: 700 },
+  build: {
+    chunkSizeWarningLimit: 700,
+    rollupOptions: { output: { manualChunks: { three: ['three'], gsap: ['gsap'] } } },
+  },
 });

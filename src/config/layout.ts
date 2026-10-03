@@ -1,80 +1,60 @@
 /**
- * Scene geometry, all in "design pixels" on a 1600x900 stage.
- * The whole scene is scaled to the viewport with a single CSS transform.
- *
- * Composition: close-up of a CRT on a table, cassettes stacked on both sides,
- * Mordecai's arms reach in from the bottom corners.
+ * 3D scene geometry in metres. +x right, +y up, +z towards the viewer.
+ * The table top is at y = TABLE.topY; the TV stands in the middle of it,
+ * tapes are stacked on both sides, the wall is behind.
  */
-export const STAGE = { w: 1600, h: 900 } as const;
+export const TABLE = { topY: 0.75, width: 2.8, depth: 0.95, z: 0.08, thickness: 0.06 } as const;
 
-/** Top surface of the table everything stands on. */
-export const TABLE_Y = 652;
-/** Where wall meets table/floor in the room art (used to colour the area outside the stage on tall screens). */
-export const HORIZON_Y = 652;
+export const WALL_Z = -0.55;
 
 export const TV = {
-  x: 420,
-  y: 80,
-  w: 760,
-  h: 580,
-  screen: { x: 40, y: 34, w: 536, h: 402 },
-  /** VCR slot centre and size, relative to the TV */
-  slot: { x: 380, y: 523, w: 360, h: 58 },
+  width: 0.8,
+  bodyH: 0.56,
+  baseH: 0.13,
+  bodyDepth: 0.4,
+  baseDepth: 0.5,
+  /** z of the front face of the TV */
+  frontZ: 0.24,
+  /** screen centre (x, y) and size; the screen faces +z */
+  screen: { x: -0.07, y: 1.17, w: 0.54, h: 0.405 },
+  /** VCR slot centre and size on the front of the base */
+  slot: { x: 0, y: TABLE.topY + 0.065, w: 0.345, h: 0.062 },
 } as const;
 
-export const TV_SLOT_ABS = { x: TV.x + TV.slot.x, y: TV.y + TV.slot.y } as const;
-export const TV_SCREEN_ABS = {
-  x: TV.x + TV.screen.x + TV.screen.w / 2,
-  y: TV.y + TV.screen.y + TV.screen.h / 2,
-} as const;
+/** A VHS cassette lying flat: width along x, thickness along y, depth along z (label faces +z). */
+export const TAPE = { w: 0.27, h: 0.052, d: 0.155 } as const;
 
-/**
- * A cassette lying flat, seen from the front with a bit of its top visible.
- * `h` is the front face (the label side); the top face (`top` px) is drawn above it
- * and is covered by the next tape in a stack.
- */
-export const TAPE = { w: 270, h: 56, top: 44, gap: 0 } as const;
-/** How big the cassette looks once it is pushed into the slot (it moves away from the camera). */
-export const TAPE_IN_SLOT_SCALE = 0.9;
+/** Tape centre once pushed into the VCR (its label side sticks out ~1 cm). */
+export const TAPE_IN_SLOT_Z = TV.frontZ + 0.012 - TAPE.d / 2;
 
 export type StackId = 'left' | 'right';
-export const STACKS: Record<StackId, { x: number; baseY: number }> = {
-  left: { x: 245, baseY: TABLE_Y },
-  right: { x: 1355, baseY: TABLE_Y },
+export const STACKS: Record<StackId, { x: number; z: number }> = {
+  left: { x: -0.67, z: 0.1 },
+  right: { x: 0.67, z: 0.1 },
 };
+/** How many projects go into the left stack; the rest go right. */
+export const LEFT_STACK_COUNT = 3;
 
-/** Centre of the n-th tape (0 = bottom) in a stack. */
-export function tapePosition(stack: StackId, slot: number) {
+export function tapeHome(stack: StackId, slot: number) {
   const s = STACKS[stack];
-  return { x: s.x, y: s.baseY - (slot + 0.5) * (TAPE.h + TAPE.gap) };
+  return { x: s.x, y: TABLE.topY + TAPE.h / 2 + slot * TAPE.h, z: s.z };
 }
 
-/**
- * Mordecai's arms. Each arm is a sleeve anchored at a shoulder below the
- * bottom corner of the stage; it rotates and stretches so the hand lands on a target.
- */
-export const ARMS = {
-  shoulders: {
-    left: { x: 100, y: 1260 },
-    right: { x: 1500, y: 1260 },
-  },
-  len: 1000, // length of the arm image (max reach)
-  min: 160,
-  w: 100,
-  /** hand image size; its centre is the end of the sleeve and the gripping point */
-  hand: { w: 168, h: 240 },
-  /** the hand grips the end of the tape: distance from tape centre to the hand centre */
-  grip: TAPE.w / 2 - 6,
+export const CAMERA = {
+  fov: 36,
+  /** idle: what the camera looks at, and how much width must stay in view */
+  look: { x: 0, y: 1.06, z: 0 },
+  height: 1.26,
+  fitHalfWidth: 0.9,
+  /** portrait screens: a wider vertical field of view so the room is not tiny */
+  portraitFov: 52,
 } as const;
 
-/** Mouse parallax amplitude (px) per layer. TV barely moves, foreground moves most. */
-export const PARALLAX = {
-  background: 6,
-  room: 9,
-  furniture: 14,
-  props: 18,
-  tv: 3,
-  character: 6,
-  foreground: 24,
+export const ARM = {
+  /** upper arm and forearm length (scaled up per sequence if a target is far away) */
+  upper: 0.52,
+  fore: 0.5,
+  radius: 0.042,
+  /** shoulders sit just outside the bottom corners of the view (camera space) */
+  shoulderCam: { x: 0.46, y: -0.3, z: -0.36 },
 } as const;
-export type ParallaxId = keyof typeof PARALLAX;

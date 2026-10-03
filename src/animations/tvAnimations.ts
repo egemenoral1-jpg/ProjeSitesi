@@ -1,39 +1,45 @@
 import type { Tape } from '../data/tapes';
 import { sfx } from '../audio/audio';
-import { getRig, wait } from './rig';
+import { tvBus } from '../state/tvBus';
+import type { TVPhase } from '../three/ScreenTexture';
+import { getWorld } from '../three/World';
+import { wait } from './rig';
+
+function phase(p: TVPhase) {
+  const w = getWorld();
+  w.tv.screen.setPhase(p);
+  w.tv.led.emissiveIntensity = p === 'off' ? 0.15 : 2.5;
+  tvBus.set({ phase: p });
+}
 
 /**
  * BLACK -> STATIC -> VHS NOISE -> GLITCH -> TRACKING -> PROJECT SCREEN.
- * Generic: it only receives the tape to show, nothing project specific.
+ * Generic: it only receives the tape to show.
  */
 export async function playTV(tape: Tape) {
-  const { tv, scene } = getRig();
-  scene.dataset.tv = 'on';
   sfx.play('crtPowerOn');
-  tv.setPhase('black');
+  phase('black');
   await wait(0.35);
   sfx.play('tvStatic');
-  tv.setPhase('static');
-  await wait(0.75);
-  tv.setPhase('noise');
-  await wait(0.5);
-  tv.setPhase('glitch');
-  await wait(0.45);
-  tv.setPhase('tracking');
-  tv.show(tape);
+  phase('static');
   await wait(0.7);
-  tv.setPhase('project');
+  phase('noise');
+  await wait(0.5);
+  phase('glitch');
+  await wait(0.45);
+  tvBus.set({ tape });
+  phase('tracking');
+  await wait(0.7);
+  phase('project');
 }
 
-/** Short VHS rewind / CRT collapse, then the TV rests. */
+/** Short VHS rewind, CRT collapses, then the set goes back to snow. */
 export async function stopTV() {
-  const { tv, scene } = getRig();
   sfx.play('vhsRewind');
-  tv.setPhase('glitch');
+  phase('glitch');
   await wait(0.25);
-  tv.setPhase('shutdown');
+  phase('shutdown');
   await wait(0.55);
-  tv.show(null);
-  tv.setPhase('off');
-  scene.dataset.tv = 'off';
+  tvBus.set({ tape: null });
+  phase('off');
 }

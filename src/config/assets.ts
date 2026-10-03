@@ -1,31 +1,19 @@
 /**
  * Central asset configuration.
  *
- * Every image/sound used by the app is referenced ONLY from here. To swap a
- * placeholder for final artwork, drop the new file into public/assets/... and
- * change the matching path below (e.g. `placeholder-mordecai-right-arm.svg` ->
- * `mordecai-right-arm.webp`). Nothing else in the code base needs to change.
- * See docs/ASSETS.md for sizes, anchors and layers of every file.
+ * The 3D room, TV, cassettes and Mordecai's arm are built procedurally in `src/three/`
+ * (one builder per object), and their textures are drawn on canvases in `src/three/textures.ts`.
+ * To use real artwork later, replace a builder with a loaded model/texture; every
+ * file path the app needs lives here so nothing else has to know where files are.
  */
 const base = import.meta.env.BASE_URL;
 const a = (p: string) => `${base}assets/${p}`;
 
 export const ASSETS = {
-  background: a('background/placeholder-background.svg'),
-  room: a('room/placeholder-room.svg'),
-  characters: {
-    mordecai: {
-      leftArm: a('characters/mordecai/placeholder-mordecai-left-arm.svg'),
-      rightArm: a('characters/mordecai/placeholder-mordecai-right-arm.svg'),
-      leftHand: a('characters/mordecai/placeholder-mordecai-left-hand.svg'),
-      rightHand: a('characters/mordecai/placeholder-mordecai-right-hand.svg'),
-    },
-  },
-  cassettes: {
-    tape: a('cassettes/placeholder-vhs.svg'),
-  },
-  tv: {
-    frame: a('tv/placeholder-tv.svg'),
+  /** Fonts used on canvas textures (loaded from Google Fonts in index.html). */
+  fonts: {
+    label: 'Chewy',
+    tv: 'VT323',
   },
   /** Optional sounds. Missing files are ignored silently. */
   audio: {

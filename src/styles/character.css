@@ -1,5 +1,0 @@
-.arms { position: absolute; inset: 0; }
-.m-arm { position: absolute; max-width: none; will-change: transform; }
-.m-hand { position: absolute; will-change: transform; }
-.m-hand-img { position: absolute; inset: 0; width: 100%; height: 100%; will-change: transform; transform-origin: 50% 50%; }
-.held { visibility: hidden; opacity: 0; will-change: transform; }
