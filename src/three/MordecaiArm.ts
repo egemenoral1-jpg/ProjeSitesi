@@ -27,6 +27,32 @@ const PALM_OFFSET = 0.05 * HAND_SCALE;
  *   palm    - direction the palm faces
  *   curl    - 0 open ... 1 fist
  */
+/**
+ * Texture wrapped around every finger segment: Mordecai blue with two black ink lines
+ * running along the finger (one near each side, as seen from the back of the hand)
+ * and a thin light highlight - the way the fingers are drawn in the show.
+ * Capsule/cylinder UVs: u = 0 faces +z (the knuckle side), u = 0.25 / 0.75 are the sides.
+ */
+let fingerInk: THREE.CanvasTexture | null = null;
+function fingerInkTexture() {
+  if (fingerInk) return fingerInk;
+  const c = document.createElement('canvas');
+  c.width = 256;
+  c.height = 8;
+  const g = c.getContext('2d')!;
+  g.fillStyle = PALETTE.mordecai;
+  g.fillRect(0, 0, 256, 8);
+  g.fillStyle = '#0d0c12';
+  for (const u of [0.15, 0.85]) g.fillRect(u * 256 - 6, 0, 12, 8);
+  g.fillStyle = 'rgba(255,255,255,0.75)';
+  g.fillRect(0.05 * 256 - 2, 0, 4, 8);
+  fingerInk = new THREE.CanvasTexture(c);
+  fingerInk.colorSpace = THREE.SRGBColorSpace;
+  fingerInk.wrapS = THREE.RepeatWrapping;
+  fingerInk.anisotropy = 4;
+  return fingerInk;
+}
+
 export class MordecaiArm {
   readonly root = new THREE.Group();
   readonly sign: number;
@@ -55,11 +81,11 @@ export class MordecaiArm {
 
   constructor(readonly side: StackId) {
     this.sign = side === 'right' ? 1 : -1;
-    // flat cartoon colours, outlined by the OutlineEffect like the show's drawings
-    // The arm draws its own bold, screen-space black ink lines (see outline.ts),
-    // so the room-wide OutlineEffect is switched off for it.
+    // Flat cartoon colours. The arm draws its own screen-space contour (see outline.ts),
+    // so the room-wide OutlineEffect is switched off for it. The fingers also carry
+    // black ink lines painted along their length, like the show's drawings.
     const blue = noOutline(toon(PALETTE.mordecai));
-    const finger = noOutline(toon(PALETTE.mordecai));
+    const finger = noOutline(toon('#ffffff', { map: fingerInkTexture() }));
     finger.userData.isFinger = true;
     const white = noOutline(toon(PALETTE.white));
     const r = ARM.radius;
@@ -88,7 +114,7 @@ export class MordecaiArm {
       }
     });
     // black contour: a bit finer on the fingers so the pointed tips stay crisp
-    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.016 : 0.022));
+    addHulls(this.root, (m) => ((m.material as THREE.Material).userData.isFinger ? 0.0055 : 0.0085));
     this.root.visible = false;
   }
 
