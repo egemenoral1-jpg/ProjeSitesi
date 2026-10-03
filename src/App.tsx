@@ -9,13 +9,24 @@ import type { TapeObject } from './three/World';
 
 export default function App() {
   const { state, hintVisible, select, back, introDone } = useSceneInteraction();
-  const [sound, setSound] = useState(false);
+  const [sound, setSound] = useState(() => sfx.isEnabled());
   const [ready, setReady] = useState(false);
   const [tip, setTip] = useState<{ title: string; x: number; y: number } | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.state = state;
   }, [state]);
+
+  // browsers only allow audio after a user gesture: start the music on the first click / key press
+  useEffect(() => {
+    const unlock = () => sfx.unlock();
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
+  }, []);
 
   const onHover = useCallback((t: TapeObject | null, at: { x: number; y: number } | null) => {
     setTip(t && at ? { title: t.tape.title, x: at.x, y: at.y } : null);
@@ -48,7 +59,7 @@ export default function App() {
           setSound(!sound);
         }}
       >
-        SOUND {sound ? 'ON' : 'OFF'}
+        ♪ {sound ? 'ON' : 'OFF'}
       </button>
       {state === 'INTRO' && <IntroSequence onDone={introDone} ready={ready} />}
     </>

@@ -81,53 +81,104 @@ export function carpetTexture() {
   return toTexture(c, [10, 10]);
 }
 
-/** The framed drawing on the wall: a quick pencil sketch of a bird in a top hat. */
+/**
+ * The framed drawing on the wall: a pencil sketch of Pops from Regular Show -
+ * big round lollipop head, tall top hat, curly moustache, bow tie and suit.
+ */
 export function pictureTexture() {
   const [c, g] = canvas(320, 400);
   g.fillStyle = '#fbfaf4';
   g.fillRect(0, 0, 320, 400);
-  g.strokeStyle = '#3a3a46';
-  g.lineWidth = 4;
+  const ink = '#33323d';
+  g.strokeStyle = ink;
+  g.fillStyle = ink;
+  g.lineWidth = 3.5;
   g.lineCap = 'round';
   g.lineJoin = 'round';
-  // top hat
-  g.strokeRect(122, 70, 76, 70);
+  const line = (pts: number[]) => {
+    g.beginPath();
+    g.moveTo(pts[0], pts[1]);
+    for (let i = 2; i < pts.length; i += 2) g.lineTo(pts[i], pts[i + 1]);
+    g.stroke();
+  };
+
+  // suit: narrow shoulders, long body, lapels
   g.beginPath();
-  g.moveTo(96, 140);
-  g.lineTo(224, 140);
+  g.moveTo(118, 262);
+  g.quadraticCurveTo(160, 248, 202, 262);
+  g.lineTo(214, 392);
+  g.moveTo(118, 262);
+  g.lineTo(106, 392);
   g.stroke();
-  // round head and big eyes
+  line([146, 256, 160, 300, 174, 256]);
+  line([160, 300, 160, 392]);
+  // bow tie
   g.beginPath();
-  g.ellipse(160, 200, 62, 56, 0, 0, Math.PI * 2);
-  g.stroke();
-  g.beginPath();
-  g.arc(140, 190, 12, 0, Math.PI * 2);
-  g.arc(184, 190, 12, 0, Math.PI * 2);
-  g.stroke();
-  g.fillStyle = '#3a3a46';
-  g.beginPath();
-  g.arc(143, 192, 4, 0, Math.PI * 2);
-  g.arc(187, 192, 4, 0, Math.PI * 2);
-  g.fill();
-  // beak and a big moustache-like smile
-  g.beginPath();
-  g.moveTo(160, 205);
-  g.lineTo(150, 232);
-  g.lineTo(172, 232);
+  g.moveTo(160, 252);
+  g.lineTo(140, 242);
+  g.lineTo(140, 262);
   g.closePath();
-  g.stroke();
-  // body, lollipop
+  g.moveTo(160, 252);
+  g.lineTo(180, 242);
+  g.lineTo(180, 262);
+  g.closePath();
+  g.fill();
+  // thin neck
+  line([154, 226, 154, 246]);
+  line([166, 226, 166, 246]);
+
+  // big round head
+  g.fillStyle = '#ffffff';
   g.beginPath();
-  g.moveTo(130, 252);
-  g.quadraticCurveTo(160, 360, 190, 252);
-  g.moveTo(205, 270);
-  g.lineTo(245, 230);
+  g.arc(160, 160, 76, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+  g.fillStyle = ink;
+
+  // tall top hat sitting on top of the head
+  g.beginPath();
+  g.rect(132, 34, 56, 58);
+  g.stroke();
+  g.fillRect(132, 76, 56, 9);
+  line([112, 92, 208, 92]);
+
+  // small happy eyes, little nose
+  g.beginPath();
+  g.arc(140, 150, 5, 0, Math.PI * 2);
+  g.arc(180, 150, 5, 0, Math.PI * 2);
+  g.fill();
+  line([132, 136, 146, 133]);
+  line([174, 133, 188, 136]);
+  g.beginPath();
+  g.arc(160, 168, 6, 0, Math.PI * 2);
+  g.stroke();
+
+  // the famous curly moustache
+  g.beginPath();
+  g.moveTo(160, 180);
+  g.bezierCurveTo(146, 172, 124, 176, 116, 190);
+  g.bezierCurveTo(112, 198, 118, 204, 124, 198);
+  g.moveTo(160, 180);
+  g.bezierCurveTo(174, 172, 196, 176, 204, 190);
+  g.bezierCurveTo(208, 198, 202, 204, 196, 198);
+  g.stroke();
+  // smile
+  g.beginPath();
+  g.arc(160, 192, 18, 0.15 * Math.PI, 0.85 * Math.PI);
+  g.stroke();
+
+  // a lollipop in his hand
+  line([210, 300, 250, 250]);
+  g.beginPath();
+  g.arc(258, 240, 15, 0, Math.PI * 2);
   g.stroke();
   g.beginPath();
-  g.arc(252, 222, 14, 0, Math.PI * 2);
+  g.arc(258, 240, 7, 0, Math.PI * 1.6);
   g.stroke();
-  g.font = '22px "Chewy", sans-serif';
-  g.fillText('E.O.', 250, 380);
+
+  g.font = '20px "Chewy", sans-serif';
+  g.fillText('Jolly good show!', 18, 30);
+  g.fillText('E.O.', 262, 386);
   return toTexture(c);
 }
 

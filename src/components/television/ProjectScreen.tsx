@@ -126,7 +126,7 @@ export function ProjectScreen({ tape, onBack }: { tape: Tape; onBack: () => void
 
       <div className="btns">
         <ExtLink href={p.githubUrl}>[GITHUB REPOSU]</ExtLink>
-        <ExtLink href={p.liveUrl}>[CANLI DEMO]</ExtLink>
+        {p.liveUrl && <ExtLink href={p.liveUrl}>[CANLI SİTE]</ExtLink>}
       </div>
 
       <div className="btns back">

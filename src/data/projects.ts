@@ -25,7 +25,7 @@ export interface Project {
   technologies: string[];
   features: string[];
   githubUrl: string;
-  /** Optional: when missing, the LIVE DEMO button is shown disabled. */
+  /** Optional: only projects that are deployed get a live link button. */
   liveUrl?: string;
   /** Label colour of the cassette */
   color: string;
@@ -130,7 +130,7 @@ export const projects: Project[] = [
     cassetteLabel: 'KUTUPHANE',
     tagline: 'Kitap takibi ve okuma alışkanlığı uygulaması.',
     description:
-      'Kitaplarını ekle, okuma süreni tut, notlar al, puanla ve günlük okuma serini koru. Giriş sistemi, PostgreSQL veritabanı ve karanlık mod içeren bir Next.js uygulaması; Vercel üzerinde yayında.',
+      'Kitaplarını ekle, okuma süreni tut, notlar al, puanla ve günlük okuma serini koru. Giriş sistemi, PostgreSQL veritabanı ve karanlık mod içeren bir Next.js uygulaması.',
     technologies: ['Next.js 15', 'React 19', 'TypeScript', 'Prisma', 'PostgreSQL (Neon)', 'NextAuth', 'Zod', 'Tailwind'],
     features: [
       'Kitap ekleme ve yönetme',
@@ -139,7 +139,6 @@ export const projects: Project[] = [
       'Karanlık mod',
     ],
     githubUrl: 'https://github.com/egemenoral1-jpg/kutuphane',
-    liveUrl: 'https://akasha-peach.vercel.app',
     color: '#5a2a7a',
     repo: {
       fullName: 'egemenoral1-jpg/kutuphane',
@@ -181,6 +180,36 @@ export const projects: Project[] = [
       createdAt: '2026-08-16',
       pushedAt: '2026-08-16',
       structure: ['agent.py', 'game.py', 'model.py', 'train.py', 'helper.py', 'model/', 'requirements.txt', 'README.md'],
+    },
+  },
+  {
+    id: 'cv-site',
+    title: 'Egemen Oral — CV',
+    cassetteLabel: 'EGEMEN ORAL CV',
+    tagline: 'Kişisel CV ve portfolyo sitem.',
+    description:
+      'Trakya Üniversitesi Bilgisayar Mühendisliği öğrencisi olarak kendimi, becerilerimi, projelerimi ve eğitimimi anlattığım tek sayfalık site. CV’m PDF olarak indirilebiliyor; site Netlify üzerinde yayında.',
+    technologies: ['HTML', 'Tailwind CSS', 'JavaScript', 'AOS', 'Font Awesome', 'Netlify'],
+    features: [
+      'Hakkımda, Beceriler, Projeler, Eğitim ve İletişim bölümleri',
+      'İndirilebilir PDF CV',
+      'Kaydırdıkça beliren animasyonlar (AOS)',
+      'Mobil uyumlu tasarım',
+    ],
+    githubUrl: 'https://github.com/egemenoral1-jpg/egemenoral',
+    liveUrl: 'https://egemenoral.netlify.app/',
+    color: '#24508f',
+    repo: {
+      fullName: 'egemenoral1-jpg/egemenoral',
+      defaultBranch: 'master',
+      languages: { HTML: 62841 },
+      commits: 3,
+      stars: 1,
+      forks: 0,
+      sizeKb: 82,
+      createdAt: '2025-10-20',
+      pushedAt: '2026-08-05',
+      structure: ['index.html', 'Egemen_Oral_CV.pdf'],
     },
   },
 ];

@@ -40,7 +40,20 @@ To use a rigged hand model (GLB) instead: load it once, add it under `hand` in p
 Canvas textures use the fonts listed in `ASSETS.fonts` (`src/config/assets.ts`), loaded from Google Fonts:
 Chewy for cassette labels (ASCII only), VT323 for the TV text, Lilita One for titles.
 
-## Audio (optional, `public/assets/audio/`)
+## Audio
 
-`cassette-click.mp3`, `vhs-insert.mp3`, `tv-static.mp3`, `button-click.mp3`, `crt-power-on.mp3`, `vhs-rewind.mp3`,
-`room-ambience.mp3` (loop). Sounds are off until the visitor presses the SOUND button; missing files are ignored.
+Everything is synthesised in [`src/audio/audio.ts`](../src/audio/audio.ts) with the Web Audio API, so there are no
+audio files:
+
+- **Music:** an original, laid-back 70s/80s groove (electric piano, bass, drums, a short lead line; Am7 - D9 -
+  Fmaj7 - E7 at 98 BPM). It starts on the visitor's first click or key press (browsers block audio before that),
+  gets quieter while a tape is playing, and the corner button (♪ ON / OFF) mutes it; the choice is remembered.
+- **Effects:** tape click, VCR insert clunk, CRT power-on whine, static, rewind.
+
+The show's own theme is copyrighted, so it is not included. To use a music file you have the rights to, put it in
+`public/assets/audio/` and set `ASSETS.audio.musicFile` in `src/config/assets.ts`; it replaces the built-in tune.
+
+## The drawing on the wall
+
+`pictureTexture()` in `src/three/textures.ts` draws a pencil sketch of Pops (top hat, round head, curly moustache,
+bow tie, lollipop) with "Jolly good show!" written on it.

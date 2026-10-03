@@ -18,8 +18,9 @@ where it was.
 | COMPUTER-HARDWARE | [Computer-Hardware](https://github.com/egemenoral1-jpg/Computer-Hardware) |
 | HISSE-TAKIP-AI | [hisse-takip-ai](https://github.com/egemenoral1-jpg/hisse-takip-ai) |
 | AMAZON ASSISTANT | [amazon-shopping-assistant](https://github.com/egemenoral1-jpg/amazon-shopping-assistant) |
-| KUTUPHANE | [kutuphane](https://github.com/egemenoral1-jpg/kutuphane) (live demo) |
+| KUTUPHANE | [kutuphane](https://github.com/egemenoral1-jpg/kutuphane) |
 | SNAKE-AI | [snake-ai](https://github.com/egemenoral1-jpg/snake-ai) |
+| EGEMEN ORAL CV | [egemenoral](https://github.com/egemenoral1-jpg/egemenoral), live at [egemenoral.netlify.app](https://egemenoral.netlify.app/) |
 
 ## Stack
 
@@ -75,6 +76,10 @@ ejectCassette(tape)          // BACK: pull it out and lay it back in its stack
 finger direction, palm direction and finger curl. The tape the hand holds follows the palm.
 
 Mouse movement moves the camera slightly (real parallax); touch devices just tap.
+
+## Sound
+
+Original synthesised background music and sound effects (no files): see [docs/ASSETS.md](docs/ASSETS.md#audio).
 
 ## Add a project
 

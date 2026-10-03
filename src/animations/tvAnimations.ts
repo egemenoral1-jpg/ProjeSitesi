@@ -31,11 +31,13 @@ export async function playTV(tape: Tape) {
   phase('tracking');
   await wait(0.7);
   phase('project');
+  sfx.duck(true);
 }
 
 /** Short VHS rewind, CRT collapses, then the set goes back to snow. */
 export async function stopTV() {
   sfx.play('vhsRewind');
+  sfx.duck(false);
   phase('glitch');
   await wait(0.25);
   phase('shutdown');
