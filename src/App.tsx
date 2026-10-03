@@ -50,7 +50,7 @@ export default function App() {
       )}
       <Scanlines strength="page" />
       {state === 'IDLE' && hintVisible && <div className="hint">Click a cassette.</div>}
-      <a className="cv-link" href="https://egemenoral.netlify.app/" title="Back to my CV">
+      <a className="cv-link" href="https://egemenoral.com/" title="Back to my CV">
         ← CV
       </a>
       <button
